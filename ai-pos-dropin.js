@@ -2818,12 +2818,16 @@ async function main() {
   const filePaths = allFilePaths.slice(0, MAX_FILES);
   console.log(`   Found ${filePaths.length} source file(s)`);
 
-  // Phase 2: Deep Analysis
+  // Phase 2: Deep Analysis (Optimized Parallel Execution Pool)
   console.log('🧬 Phase 2/6: Deep file analysis...');
   const files = [];
-  for (const fp of filePaths) {
-    const result = await analyzeFile(fp, rootPath);
-    if (result) files.push(result);
+  const CONCURRENCY_LIMIT = 50;
+  for (let i = 0; i < filePaths.length; i += CONCURRENCY_LIMIT) {
+    const chunk = filePaths.slice(i, i + CONCURRENCY_LIMIT);
+    const results = await Promise.all(chunk.map(fp => analyzeFile(fp, rootPath)));
+    for (const r of results) {
+      if (r) files.push(r);
+    }
   }
   console.log(`   Analyzed ${files.length} file(s): ${files.reduce((s, f) => s + f.functions.length, 0)} functions, ${files.reduce((s, f) => s + f.classes.length, 0)} classes`);
 
