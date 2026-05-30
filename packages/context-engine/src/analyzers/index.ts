@@ -22,6 +22,8 @@ import { extractObservability } from './observability-extractor.js';
 import { analyzeRuntime } from './runtime-analyzer.js';
 import { collectTestIntelligence } from './test-intelligence.js';
 import { evaluateReadiness } from './readiness-engine.js';
+import { extractDataIntelligence } from './data-intelligence.js';
+import { extractEventIntelligence } from './event-intelligence.js';
 
 export { detectArchitecture } from './architecture-detector.js';
 export { extractAPIIntelligence } from './api-extractor.js';
@@ -36,6 +38,8 @@ export { extractObservability } from './observability-extractor.js';
 export { analyzeRuntime } from './runtime-analyzer.js';
 export { collectTestIntelligence } from './test-intelligence.js';
 export { evaluateReadiness } from './readiness-engine.js';
+export { extractDataIntelligence } from './data-intelligence.js';
+export { extractEventIntelligence } from './event-intelligence.js';
 
 /**
  * Executes all intelligence analyzers on parsed file structures.

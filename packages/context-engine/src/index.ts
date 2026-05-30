@@ -6,6 +6,7 @@
 // Parsers
 export * from './parser/ast-parser.js';
 export * from './parser/dependency-parser.js';
+export * from './parser/call-graph.js';
 
 // Analyzers
 export * from './analyzers/index.js';

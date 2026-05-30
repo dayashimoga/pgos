@@ -1,8 +1,8 @@
 # AI REPOSITORY BRAIN — app
 
 > **FOR AI AGENTS**: This is the SINGLE master intelligence file. Read this FIRST — it replaces 90-98% of full repository scanning.
-> **Confidence**: 10% | **Generated**: 2026-05-30T06:41:15.977Z | **Engine**: PGOS AIRB v3.0.0
-> **Files Analyzed**: 115 | **LOC**: 16,789 | **Duration**: 729ms
+> **Confidence**: 10% | **Generated**: 2026-05-30T07:44:56.203Z | **Engine**: PGOS AIRB v3.0.0
+> **Files Analyzed**: 120 | **LOC**: 17,258 | **Duration**: 952ms
 > **README**: > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
 
 ---
@@ -53,16 +53,16 @@
 | **Framework** | React |
 | **Architecture** | Monorepo |
 | **Maturity** | Growth |
-| **Scale** | 115 files · 16,789 LOC |
-| **Languages** | TypeScript (14980), JavaScript (1809) |
+| **Scale** | 120 files · 17,258 LOC |
+| **Languages** | TypeScript (15449), JavaScript (1809) |
 | **Classes** | 60 |
-| **Functions** | 343 |
+| **Functions** | 348 |
 | **API Endpoints** | 93 |
 | **Risk Score** | 23/100 |
 | **Confidence** | 10% |
 
 ### Executive Summary
-app is a growth-grade TypeScript React application using Monorepo architecture. It contains 343 functions across 115 files with 93 API endpoints. The system implements 24 business feature(s) in the Analytics domain. Risk: 23/100. Confidence: 10%.
+app is a growth-grade TypeScript React application using Monorepo architecture. It contains 348 functions across 120 files with 93 API endpoints. The system implements 24 business feature(s) in the Analytics domain. Risk: 23/100. Confidence: 10%.
 
 ### Business Purpose
 > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
@@ -317,7 +317,7 @@ graph TD
 
 ### `runAllAnalyzers()` — pure
 - **Purpose**: run all analyzers
-- **File**: `packages/context-engine/src/analyzers/index.ts` L39
+- **File**: `packages/context-engine/src/analyzers/index.ts` L43
 - **Params**: mockRoot, files, depGraph, modules
 - **Async**: Yes | **Exported**: Yes
 
@@ -579,18 +579,18 @@ graph LR
 
 ## §10 — DEPENDENCY INTELLIGENCE
 
-- **Modules**: 115 | **Edges**: 0 | **Circular**: 0
+- **Modules**: 120 | **Edges**: 0 | **Circular**: 0
 
 ### Single Points of Failure
 - None identified
 
 ### External Dependencies (54)
-- **{** — 83 file(s)
-- **path** — 43 file(s)
+- **{** — 87 file(s)
+- **path** — 46 file(s)
 - **type** — 43 file(s)
+- **fs** — 36 file(s)
 - **@pgos/core** — 36 file(s)
-- **fs** — 33 file(s)
-- **vitest** — 17 file(s)
+- **vitest** — 18 file(s)
 - **url** — 12 file(s)
 - **chalk** — 9 file(s)
 - **@pgos/context-engine** — 5 file(s)
@@ -711,10 +711,10 @@ graph LR
 
 | Metric | Value |
 |--------|-------|
-| **Test Files** | 29 |
+| **Test Files** | 33 |
 | **Tested Modules** | 0 |
-| **Untested Source Files** | 86 |
-| **Test Ratio** | 25% |
+| **Untested Source Files** | 87 |
+| **Test Ratio** | 28% |
 
 ### Critical Untested Paths
 - `apps/api/src/db/connection.ts` — Critical file with no test coverage
@@ -807,7 +807,7 @@ graph LR
 - `packages/context-engine/src/__tests__/context.test.ts` — Database operations [high]
 - `packages/context-engine/src/__tests__/test-standalone.js` — Database operations [high]
 
-### Async Coverage: 20/115 files use async patterns
+### Async Coverage: 20/120 files use async patterns
 
 ---
 
@@ -818,7 +818,7 @@ graph LR
 | Logging | YES | 3 |
 | Metrics | NO | 0 |
 | Tracing | NO | 0 |
-| Health Checks | NO | 0 |
+| Health Checks | YES | 1 |
 
 ### Blind Spots
 - `apps/api/src/db/connection.ts` — Critical file with no logging instrumentation
@@ -848,7 +848,7 @@ graph LR
 
 ## §20 — TECHNICAL DEBT INTELLIGENCE
 
-**Total**: 87 | **Critical**: 29 | **Effort**: Weeks
+**Total**: 90 | **Critical**: 31 | **Effort**: Weeks
 
 - [medium] **todo** in `ai-pos-dropin.js:256` — / FIXME / HACK Detection ───────────────────────
 - [medium] **todo** in `ai-pos-dropin.js:259` — |FIXME|HACK|DEPRECATED|XXX|BUG)\b[:\s]*(.*)/i);
@@ -893,7 +893,7 @@ graph LR
 _No decisions logged yet. Append here after major changes._
 
 ### Evolution History
-- **2026-05-30T06:41:15.977Z**: Brain generated. 115 files, 343 functions, 10% confidence.
+- **2026-05-30T07:44:56.203Z**: Brain generated. 120 files, 348 functions, 10% confidence.
 
 ---
 
@@ -924,14 +924,14 @@ _No decisions logged yet. Append here after major changes._
 - Run all affected test suites
 - Regenerate this Brain file if public interfaces changed
 
-### SAFE FILES (29)
+### SAFE FILES (33)
 - `ai-pos-dropin.js`
 - `apps/dashboard/src/app/validation/page.tsx`
 - `packages/agent-runtime/src/__tests__/agent.test.ts`
 - `packages/architecture-guard/src/index.ts`
 - `packages/context-engine/src/__tests__/analyzers.test.ts`
 
-### CAUTION FILES (51)
+### CAUTION FILES (52)
 - `packages/agent-runtime/src/index.ts`
 - `packages/context-engine/src/analyzers/api-extractor.ts`
 - `packages/context-engine/src/analyzers/observability-extractor.ts`
@@ -972,7 +972,7 @@ _No decisions logged yet. Append here after major changes._
 ## §24 — TOKEN COMPRESSION ENGINE
 
 **L0 — Repository Snapshot** (~50 tokens)
-app: TypeScript React app, Monorepo, 115 files, 16,789 LOC, Analytics.
+app: TypeScript React app, Monorepo, 120 files, 17,258 LOC, Analytics.
 
 **L1 — Architecture Summary** (~150 tokens)
 Monorepo with 2 layers. 93 endpoints, 60 classes, Custom Auth/JWT auth. Risk: 23/100.
@@ -995,7 +995,7 @@ Path [partial/73%], Agents [implemented/100%], Context [implemented/100%], Docs 
 
 | Check | Status |
 |-------|--------|
-| Real function bodies | YES (343) |
+| Real function bodies | YES (348) |
 | Stub/placeholder files | WARNING (19) |
 | Import resolution | WARNING |
 | Test coverage exists | YES |
@@ -1078,5 +1078,5 @@ All Mermaid diagrams are embedded in their respective sections:
 
 ---
 
-*Generated by PGOS AIRB v3.0.0 | 2026-05-30T06:41:15.977Z | DO NOT EDIT MANUALLY*
+*Generated by PGOS AIRB v3.0.0 | 2026-05-30T07:44:56.203Z | DO NOT EDIT MANUALLY*
 *Regenerate: ./ai-pos-dropin.ps1 (Windows) or ./ai-pos-dropin.sh (Linux/macOS)*

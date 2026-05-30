@@ -10,6 +10,9 @@ import { collectTestIntelligence } from '../analyzers/test-intelligence.js';
 import { evaluateReadiness } from '../analyzers/readiness-engine.js';
 import { formulateTaskBlueprint } from '../compiler/task-planner.js';
 import { loadProjectMemory, saveProjectMemory } from '../compiler/memory-engine.js';
+import { buildCallGraph } from '../parser/call-graph.js';
+import { extractDataIntelligence } from '../analyzers/data-intelligence.js';
+import { extractEventIntelligence } from '../analyzers/event-intelligence.js';
 import { ParsedFile } from '../parser/ast-parser.js';
 
 const mockRoot = join(__dirname, 'mock-vnext-project');
@@ -195,6 +198,217 @@ describe('AIRB vNext Engines', () => {
       const loaded = await loadProjectMemory(mockRoot);
       expect(loaded.decisions[0].title).toBe('Decision B');
       expect(loaded.knownBugs[0].id).toBe('BUG-1');
+    });
+  });
+
+  // 5. Call Graph Engine Tests
+  describe('Call Graph Engine', () => {
+    it('should compile function call chains and detect dead paths', () => {
+      const files: ParsedFile[] = [
+        {
+          path: 'src/main.ts',
+          language: 'typescript',
+          loc: 10,
+          ext: '.ts',
+          functions: [{ name: 'bootstrap', line: 1, params: [], isAsync: false, isExported: true }],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: [], listens: [] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: false,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: '',
+        },
+        {
+          path: 'src/services/userService.ts',
+          language: 'typescript',
+          loc: 15,
+          ext: '.ts',
+          functions: [
+            { name: 'findAll', line: 1, params: [], isAsync: true, isExported: true },
+            { name: 'deadMethod', line: 5, params: [], isAsync: false, isExported: true }
+          ],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: [], listens: [] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: true,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: '',
+        },
+        {
+          path: 'src/repositories/userRepo.ts',
+          language: 'typescript',
+          loc: 12,
+          ext: '.ts',
+          functions: [{ name: 'findAll', line: 1, params: [], isAsync: true, isExported: true }],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: [], listens: [] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: true,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: '',
+        },
+        {
+          path: 'src/db.ts',
+          language: 'typescript',
+          loc: 5,
+          ext: '.ts',
+          functions: [],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: [], listens: [] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: false,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: '',
+        }
+      ];
+
+      const graph = buildCallGraph(files);
+      expect(graph.edges.length).toBeGreaterThan(0);
+      expect(graph.chains.length).toBeGreaterThan(0);
+      expect(graph.deadPaths).toContain('src/services/userService.ts:deadMethod');
+    });
+  });
+
+  // 6. Data Intelligence Engine Tests
+  describe('Data Intelligence Engine', () => {
+    it('should map entities, relationships, and catch N+1 query hazards', () => {
+      const files: ParsedFile[] = [
+        {
+          path: 'src/repositories/user-repository.ts',
+          language: 'typescript',
+          loc: 20,
+          ext: '.ts',
+          functions: [{ name: 'findInLoop', line: 5, params: [], isAsync: true, isExported: true }],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: [], listens: [] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: true,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: 'Contains find loops querying database records.',
+        }
+      ];
+
+      const report = extractDataIntelligence(mockRoot, files);
+      expect(report.entities.length).toBeGreaterThan(0);
+      expect(report.relations.length).toBeGreaterThan(0);
+      expect(report.anomalies.some(a => a.type === 'n+1')).toBe(true);
+    });
+  });
+
+  // 7. Event Intelligence Engine Tests
+  describe('Event Intelligence Engine', () => {
+    it('should detect publishers, subscribers, and flag dead events / orphan listeners', () => {
+      const files: ParsedFile[] = [
+        {
+          path: 'src/emitters.ts',
+          language: 'typescript',
+          loc: 10,
+          ext: '.ts',
+          functions: [],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: ['user.registered', 'dead.event'], listens: [] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: false,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: '',
+        },
+        {
+          path: 'src/listeners.ts',
+          language: 'typescript',
+          loc: 10,
+          ext: '.ts',
+          functions: [],
+          classes: [],
+          interfaces: [],
+          enums: [],
+          imports: [],
+          exports: [],
+          rawImports: [],
+          routes: [],
+          envVars: [],
+          todos: [],
+          decorators: [],
+          events: { emits: [], listens: ['user.registered', 'orphan.listener'] },
+          stateOps: { reads: [], writes: [] },
+          isAsync: false,
+          hasTests: false,
+          zone: 'caution',
+          zoneReason: '',
+          semanticDesc: '',
+        }
+      ];
+
+      const eventReport = extractEventIntelligence(mockRoot, files);
+      expect(eventReport.publishers.length).toBe(2);
+      expect(eventReport.subscribers.length).toBe(2);
+      expect(eventReport.anomalies.some(a => a.type === 'dead-event')).toBe(true);
+      expect(eventReport.anomalies.some(a => a.type === 'orphan-listener')).toBe(true);
     });
   });
 });

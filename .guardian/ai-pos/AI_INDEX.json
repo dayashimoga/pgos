@@ -1,11 +1,11 @@
 {
   "version": "3.0.0",
-  "generatedAt": "2026-05-30T06:41:15.977Z",
-  "duration": 729,
+  "generatedAt": "2026-05-30T07:44:56.203Z",
+  "duration": 952,
   "project": {
     "name": "app",
-    "files": 115,
-    "loc": 16789,
+    "files": 120,
+    "loc": 17258,
     "language": "TypeScript",
     "framework": "React",
     "architecture": "Monorepo"
