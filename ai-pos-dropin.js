@@ -113,6 +113,13 @@ function isWorkspacePackage(importSource) {
   return WORKSPACE_SCOPES.has(scope);
 }
 
+function computeEnvConfidence(name) {
+  if (/SECRET|KEY|PORT|URL|API|TOKEN|JWT|DATABASE|DB|MONGO|REDIS|ENV|HOST|AUTH/i.test(name)) return 100;
+  if (/^[A-Z_]+$/.test(name)) return 85;
+  if (/^[a-z_]+$/i.test(name)) return 20;
+  return 50;
+}
+
 // ═══════════════════════════════════════════════════════════════════════
 // DIRECTORY SCANNER
 // ═══════════════════════════════════════════════════════════════════════
@@ -287,7 +294,17 @@ async function analyzeFile(filePath, rootPath) {
   const seenEnv = new Set();
   for (const rx of envPatterns) {
     let evm; rx.lastIndex = 0;
-    while ((evm = rx.exec(content))) { if (evm[1] && !seenEnv.has(evm[1])) { seenEnv.add(evm[1]); result.envVars.push({ name: evm[1], file: rel, sensitive: /secret|password|key|token|api_key/i.test(evm[1]) }); } }
+    while ((evm = rx.exec(content))) { 
+      if (evm[1] && !seenEnv.has(evm[1])) { 
+        seenEnv.add(evm[1]); 
+        result.envVars.push({ 
+          name: evm[1], 
+          file: rel, 
+          sensitive: /secret|password|key|token|api_key/i.test(evm[1]),
+          confidence: computeEnvConfidence(evm[1])
+        }); 
+      } 
+    }
   }
 
   // ── Event Detection ──────────────────────────────────────
@@ -1141,7 +1158,8 @@ function analyzeTechDebt(files) {
         return resolved === f.path;
       }));
       // Heuristic: if not imported and not an entry point, might be dead
-      if (!isUsed && !/(?:^|\/)(?:main|index|server|app)\.\w+$/.test(f.path) && !f.hasTests) {
+      const isNextjsEntry = /(?:^|\/)(page|layout|route|loading|error|not-found|global-error|template)\.(tsx|ts|js|jsx)$/i.test(f.path);
+      if (!isUsed && !isNextjsEntry && !/(?:^|\/)(?:main|index|server|app|bootstrap)\.\w+$/.test(f.path) && !f.hasTests) {
         unusedExports.push({ file: f.path, export: exp });
       }
     }
@@ -1575,7 +1593,7 @@ function buildKnowledgeGraph(files, depGraph, features, domainIntel) {
   for (const r of domainIntel.relationships) {
     edges.push({ from: 'entity:' + r.from, to: 'entity:' + r.to, type: r.type });
   }
-  const allRoutes = files.flatMap(f => f.routes);
+  const allRoutes = deduplicateRoutes(files.flatMap(f => f.routes));
   for (const r of allRoutes.slice(0, 30)) {
     nodes.push({ id: 'api:' + r.method + ':' + r.path, type: 'api', name: r.method + ' ' + r.path });
   }
@@ -1893,7 +1911,7 @@ function generateBrainMd(ctx) {
   const primaryLang = Object.entries(langStats).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Unknown';
   const allClasses = files.flatMap(f => f.classes);
   const allFunctions = files.flatMap(f => f.functions);
-  const allRoutes = files.flatMap(f => f.routes);
+  const allRoutes = deduplicateRoutes(files.flatMap(f => f.routes));
   const projectName = basename(meta.rootPath);
   const domain = inferDomain(files);
   const maturity = files.length > 200 ? 'Production' : files.length > 50 ? 'Growth' : 'Prototype';
@@ -2206,9 +2224,9 @@ function generateBrainMd(ctx) {
   ln('## §13 — CONFIGURATION INTELLIGENCE');
   blank();
   ln('### Environment Variables (' + uniqueEnvVars.length + ')');
-  ln('| Variable | Sensitive | Used In |');
-  ln('|----------|-----------|---------|');
-  uniqueEnvVars.slice(0, 25).forEach(e => ln('| ' + C(e.name) + ' | ' + (e.sensitive ? '**YES**' : 'No') + ' | ' + C(e.file) + ' |'));
+  ln('| Variable | Sensitive | Confidence | Used In |');
+  ln('|----------|-----------|------------|---------|');
+  uniqueEnvVars.slice(0, 25).forEach(e => ln('| ' + C(e.name) + ' | ' + (e.sensitive ? '**YES**' : 'No') + ' | ' + (e.confidence || 100) + '% | ' + C(e.file) + ' |'));
 
   // ═══ §14 TEST INTELLIGENCE ═══
   const testFiles = files.filter(f => f.hasTests);

@@ -1,8 +1,8 @@
 # AI REPOSITORY BRAIN — app
 
 > **FOR AI AGENTS**: Brain can be primary context source. Verify edge cases in source.
-> **Confidence**: 90% | **Generated**: 2026-05-30T08:27:28.848Z | **Engine**: PGOS AIRB v4.0.0
-> **Files Analyzed**: 123 | **LOC**: 18,406 | **Duration**: 983ms
+> **Confidence**: 90% | **Generated**: 2026-05-30T08:36:20.251Z | **Engine**: PGOS AIRB v4.0.0
+> **Files Analyzed**: 123 | **LOC**: 18,423 | **Duration**: 914ms
 > **README**: > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
 
 ---
@@ -65,16 +65,16 @@
 | **Framework** | React |
 | **Architecture** | Monorepo |
 | **Maturity** | Growth |
-| **Scale** | 123 files · 18,406 LOC |
-| **Languages** | TypeScript (15906), JavaScript (2500) |
+| **Scale** | 123 files · 18,423 LOC |
+| **Languages** | TypeScript (15906), JavaScript (2517) |
 | **Classes** | 61 |
-| **Functions** | 371 |
-| **API Endpoints** | 93 |
+| **Functions** | 372 |
+| **API Endpoints** | 44 |
 | **Risk Score** | 65/100 |
 | **Confidence** | 90% |
 
 ### Executive Summary
-app is a growth-grade TypeScript React application using Monorepo architecture. It contains 371 functions across 123 files with 93 API endpoints. The system implements 18 business feature(s) in the Analytics domain. Risk: 65/100. Confidence: 90%.
+app is a growth-grade TypeScript React application using Monorepo architecture. It contains 372 functions across 123 files with 44 API endpoints. The system implements 18 business feature(s) in the Analytics domain. Risk: 65/100. Confidence: 90%.
 
 ### Business Purpose
 > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
@@ -765,39 +765,39 @@ graph LR
 
 ## §11 — API & CONTRACT INTELLIGENCE
 
-### Endpoints (93)
+### Endpoints (44)
 | Method | Path | File | Line |
 |--------|------|------|------|
-| `GET` | `/path` | `ai-pos-dropin.js` | 263 |
-| `GET` | `/path` | `ai-pos-dropin.js` | 265 |
-| `POST` | `/path` | `ai-pos-dropin.js` | 265 |
-| `/PATH` | `/path` | `ai-pos-dropin.js` | 267 |
-| `GET` | `/path` | `ai-pos-dropin.js` | 263 |
-| `GET` | `/path` | `ai-pos-dropin.js` | 269 |
-| `POST` | `/:id/agents/run` | `apps/api/src/routes/agents.ts` | 12 |
-| `GET` | `/:id/agents/tasks` | `apps/api/src/routes/agents.ts` | 47 |
+| `GET` | `/path` | `ai-pos-dropin.js` | 270 |
+| `POST` | `/path` | `ai-pos-dropin.js` | 272 |
+| `/PATH` | `/path` | `ai-pos-dropin.js` | 274 |
 | `POST` | `/:id/agents/run` | `apps/api/src/routes/agents.ts` | 12 |
 | `GET` | `/:id/agents/tasks` | `apps/api/src/routes/agents.ts` | 47 |
 | `GET` | `/:id/context` | `apps/api/src/routes/context.ts` | 10 |
 | `POST` | `/:id/context/compile` | `apps/api/src/routes/context.ts` | 25 |
 | `POST` | `/:id/context/export` | `apps/api/src/routes/context.ts` | 67 |
-| `GET` | `/:id/context` | `apps/api/src/routes/context.ts` | 10 |
-| `POST` | `/:id/context/compile` | `apps/api/src/routes/context.ts` | 25 |
-| `POST` | `/:id/context/export` | `apps/api/src/routes/context.ts` | 67 |
-| `POST` | `/:id/docs/compile` | `apps/api/src/routes/docs.ts` | 10 |
-| `GET` | `/:id/docs/coverage` | `apps/api/src/routes/docs.ts` | 44 |
 | `POST` | `/:id/docs/compile` | `apps/api/src/routes/docs.ts` | 10 |
 | `GET` | `/:id/docs/coverage` | `apps/api/src/routes/docs.ts` | 44 |
 | `POST` | `/:id/git/commit` | `apps/api/src/routes/git.ts` | 10 |
 | `GET` | `/:id/git/diff` | `apps/api/src/routes/git.ts` | 36 |
 | `GET` | `/:id/git/history` | `apps/api/src/routes/git.ts` | 54 |
-| `POST` | `/:id/git/commit` | `apps/api/src/routes/git.ts` | 10 |
-| `GET` | `/:id/git/diff` | `apps/api/src/routes/git.ts` | 36 |
-| `GET` | `/:id/git/history` | `apps/api/src/routes/git.ts` | 54 |
 | `POST` | `/:id/memory` | `apps/api/src/routes/memory.ts` | 11 |
 | `GET` | `/:id/memory` | `apps/api/src/routes/memory.ts` | 29 |
-| `POST` | `/:id/memory` | `apps/api/src/routes/memory.ts` | 11 |
-| `GET` | `/:id/memory` | `apps/api/src/routes/memory.ts` | 29 |
+| `GET` | `/` | `apps/api/src/routes/projects.ts` | 15 |
+| `POST` | `/` | `apps/api/src/routes/projects.ts` | 24 |
+| `GET` | `/:id` | `apps/api/src/routes/projects.ts` | 51 |
+| `PUT` | `/:id` | `apps/api/src/routes/projects.ts` | 63 |
+| `DELETE` | `/:id` | `apps/api/src/routes/projects.ts` | 79 |
+| `POST` | `/:id/ingest` | `apps/api/src/routes/projects.ts` | 91 |
+| `GET` | `/:id/health` | `apps/api/src/routes/projects.ts` | 126 |
+| `POST` | `/:id/recovery/rollback` | `apps/api/src/routes/recovery.ts` | 10 |
+| `GET` | `/:id/recovery/options` | `apps/api/src/routes/recovery.ts` | 40 |
+| `POST` | `/:id/sessions` | `apps/api/src/routes/sessions.ts` | 10 |
+| `POST` | `/:id/sessions/:sid/switch` | `apps/api/src/routes/sessions.ts` | 32 |
+| `POST` | `/:id/snapshots` | `apps/api/src/routes/snapshots.ts` | 10 |
+| `GET` | `/:id/snapshots` | `apps/api/src/routes/snapshots.ts` | 35 |
+| `GET` | `/:id/snapshots/:sid` | `apps/api/src/routes/snapshots.ts` | 48 |
+| `GET` | `/health` | `apps/api/src/routes/system.ts` | 10 |
 
 ### Authentication: Custom Auth, JWT
 ### Trust Boundaries: `packages/architecture-guard/src/index.ts`
@@ -813,22 +813,22 @@ _No database models or repositories detected._
 ## §13 — CONFIGURATION INTELLIGENCE
 
 ### Environment Variables (14)
-| Variable | Sensitive | Used In |
-|----------|-----------|---------|
-| `DATABASE_URL` | No | `packages/context-engine/src/__tests__/test-standalone.js` |
-| `DASHBOARD_URL` | No | `apps/api/src/server.ts` |
-| `API_LOG_LEVEL` | No | `packages/core/src/utils/logger.ts` |
-| `NODE_ENV` | No | `packages/core/src/utils/logger.ts` |
-| `RATE_LIMIT_MAX` | No | `apps/api/src/server.ts` |
-| `RATE_LIMIT_WINDOW_MS` | No | `apps/api/src/server.ts` |
-| `API_PORT` | No | `apps/api/src/server.ts` |
-| `API_HOST` | No | `apps/api/src/server.ts` |
-| `NEXT_PUBLIC_API_URL` | No | `apps/dashboard/next.config.mjs` |
-| `JWT_SECRET` | **YES** | `packages/context-engine/src/__tests__/analyzers.test.ts` |
-| `LOG_LEVEL` | No | `packages/context-engine/src/__tests__/analyzers.test.ts` |
-| `VITEST` | No | `packages/core/src/utils/logger.ts` |
-| `get` | No | `packages/hallucination-detector/src/index.ts` |
-| `KEY` | **YES** | `packages/hallucination-detector/src/index.ts` |
+| Variable | Sensitive | Confidence | Used In |
+|----------|-----------|------------|---------|
+| `DATABASE_URL` | No | 100% | `packages/context-engine/src/__tests__/test-standalone.js` |
+| `DASHBOARD_URL` | No | 100% | `apps/api/src/server.ts` |
+| `API_LOG_LEVEL` | No | 100% | `packages/core/src/utils/logger.ts` |
+| `NODE_ENV` | No | 100% | `packages/core/src/utils/logger.ts` |
+| `RATE_LIMIT_MAX` | No | 85% | `apps/api/src/server.ts` |
+| `RATE_LIMIT_WINDOW_MS` | No | 85% | `apps/api/src/server.ts` |
+| `API_PORT` | No | 100% | `apps/api/src/server.ts` |
+| `API_HOST` | No | 100% | `apps/api/src/server.ts` |
+| `NEXT_PUBLIC_API_URL` | No | 100% | `apps/dashboard/next.config.mjs` |
+| `JWT_SECRET` | **YES** | 100% | `packages/context-engine/src/__tests__/analyzers.test.ts` |
+| `LOG_LEVEL` | No | 85% | `packages/context-engine/src/__tests__/analyzers.test.ts` |
+| `VITEST` | No | 85% | `packages/core/src/utils/logger.ts` |
+| `get` | No | 20% | `packages/hallucination-detector/src/index.ts` |
+| `KEY` | **YES** | 100% | `packages/hallucination-detector/src/index.ts` |
 
 ---
 
@@ -988,21 +988,21 @@ _No database models or repositories detected._
 
 **Total**: 92 | **Critical**: 31 | **Effort**: Weeks
 
-- [medium] **todo** in `ai-pos-dropin.js:307` — / FIXME / HACK Detection ───────────────────────
-- [medium] **todo** in `ai-pos-dropin.js:310` — |FIXME|HACK|DEPRECATED|XXX|BUG)\b[:\s]*(.*)/i);
-- [medium] **todo** in `ai-pos-dropin.js:860` — ' || t.type === 'FIXME').length;
-- [medium] **todo** in `ai-pos-dropin.js:1004` — /FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f
-- [medium] **todo** in `ai-pos-dropin.js:1125` — of f.todos) {
-- [medium] **todo** in `ai-pos-dropin.js:1127` — .type.toLowerCase(),
-- [medium] **todo** in `ai-pos-dropin.js:1129` — .line,
-- [medium] **todo** in `ai-pos-dropin.js:1130` — .text,
-- [medium] **todo** in `ai-pos-dropin.js:1131` — .type === 'FIXME' || todo.type === 'BUG' ? 'high' : todo.type === 'HACK' ? 'high' : 'medium',
-- [medium] **todo** in `ai-pos-dropin.js:1438` — ' || t.type === 'FIXME'));
-- [medium] **todo** in `ai-pos-dropin.js:1440` — /FIXME markers` });
-- [medium] **todo** in `ai-pos-dropin.js:1441` — /FIXME` });
-- [medium] **todo** in `ai-pos-dropin.js:2339` — placeholders, or incomplete implementations');
-- [medium] **todo** in `ai-pos-dropin.js:2403` — ' || t.type === 'FIXME'));
-- [medium] **todo** in `ai-pos-dropin.js:2758` — placeholders, or incomplete implementations
+- [medium] **todo** in `ai-pos-dropin.js:324` — / FIXME / HACK Detection ───────────────────────
+- [medium] **todo** in `ai-pos-dropin.js:327` — |FIXME|HACK|DEPRECATED|XXX|BUG)\b[:\s]*(.*)/i);
+- [medium] **todo** in `ai-pos-dropin.js:877` — ' || t.type === 'FIXME').length;
+- [medium] **todo** in `ai-pos-dropin.js:1021` — /FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f
+- [medium] **todo** in `ai-pos-dropin.js:1142` — of f.todos) {
+- [medium] **todo** in `ai-pos-dropin.js:1144` — .type.toLowerCase(),
+- [medium] **todo** in `ai-pos-dropin.js:1146` — .line,
+- [medium] **todo** in `ai-pos-dropin.js:1147` — .text,
+- [medium] **todo** in `ai-pos-dropin.js:1148` — .type === 'FIXME' || todo.type === 'BUG' ? 'high' : todo.type === 'HACK' ? 'high' : 'medium',
+- [medium] **todo** in `ai-pos-dropin.js:1456` — ' || t.type === 'FIXME'));
+- [medium] **todo** in `ai-pos-dropin.js:1458` — /FIXME markers` });
+- [medium] **todo** in `ai-pos-dropin.js:1459` — /FIXME` });
+- [medium] **todo** in `ai-pos-dropin.js:2357` — placeholders, or incomplete implementations');
+- [medium] **todo** in `ai-pos-dropin.js:2421` — ' || t.type === 'FIXME'));
+- [medium] **todo** in `ai-pos-dropin.js:2776` — placeholders, or incomplete implementations
 - [high] **hack** in `apps/api/src/db/connection.ts:16` — to parse safely
 - [medium] **todo** in `apps/cli/src/commands/init.ts:70` — ', pattern: 'TODO', description: 'Disallow TODO comments in production code' },
 - [high] **fixme** in `apps/cli/src/commands/init.ts:71` — ', pattern: 'FIXME', description: 'Disallow FIXME comments' },
@@ -1013,13 +1013,13 @@ _No database models or repositories detected._
 - `client` in `apps/api/src/db/connection.ts`
 - `db` in `apps/api/src/db/connection.ts`
 - `Database` in `apps/api/src/db/connection.ts`
-- `ArchitecturePage` in `apps/dashboard/src/app/architecture/page.tsx`
-- `DocsPage` in `apps/dashboard/src/app/docs/page.tsx`
-- `metadata` in `apps/dashboard/src/app/layout.tsx`
-- `RootLayout` in `apps/dashboard/src/app/layout.tsx`
-- `MemoryBrowserPage` in `apps/dashboard/src/app/memory/page.tsx`
-- `DashboardPage` in `apps/dashboard/src/app/page.tsx`
 - `Agent` in `packages/core/src/types/agent.ts`
+- `AgentType` in `packages/core/src/types/agent.ts`
+- `AgentConfig` in `packages/core/src/types/agent.ts`
+- `AgentTask` in `packages/core/src/types/agent.ts`
+- `AgentTaskStatus` in `packages/core/src/types/agent.ts`
+- `AgentTaskInput` in `packages/core/src/types/agent.ts`
+- `AgentTaskOutput` in `packages/core/src/types/agent.ts`
 
 ---
 
@@ -1031,7 +1031,7 @@ _No database models or repositories detected._
 _No decisions logged yet. Append here after major changes._
 
 ### Evolution History
-- **2026-05-30T08:27:28.848Z**: Brain generated. 123 files, 371 functions, 90% confidence.
+- **2026-05-30T08:36:20.251Z**: Brain generated. 123 files, 372 functions, 90% confidence.
 
 ---
 
@@ -1110,10 +1110,10 @@ _No decisions logged yet. Append here after major changes._
 ## §24 — TOKEN COMPRESSION ENGINE
 
 **L0 — Repository Snapshot** (~50 tokens)
-app: TypeScript React app, Monorepo, 123 files, 18,406 LOC, Analytics.
+app: TypeScript React app, Monorepo, 123 files, 18,423 LOC, Analytics.
 
 **L1 — Architecture Summary** (~150 tokens)
-Monorepo with 2 layers. 93 endpoints, 61 classes, Custom Auth/JWT auth. Risk: 65/100.
+Monorepo with 2 layers. 44 endpoints, 61 classes, Custom Auth/JWT auth. Risk: 65/100.
 
 **L2 — Runtime Summary** (~200 tokens)
 Startup: Load Configuration → Register Routes → Start Server. Request: Run Middleware Chain → Authenticate & Authorize → Validate Input → Execute Business Logic → Persist / Fetch Data → Send Response.
@@ -1133,7 +1133,7 @@ Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Eng
 
 | Check | Status |
 |-------|--------|
-| Real function bodies | YES (371) |
+| Real function bodies | YES (372) |
 | Stub/placeholder files | WARNING (19) |
 | Import resolution | WARNING |
 | Test coverage exists | YES |
@@ -1157,7 +1157,7 @@ Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Eng
 | Architecture Intelligence | 10 | 100% | Cross-module dependencies mapped |
 | No Circular Dependencies | 10 | 100% | 0 cycle(s) |
 | Code Quality | 10 | 85% | 19 files with TODO/FIXME |
-| Function Intelligence | 10 | 100% | 371 functions analyzed |
+| Function Intelligence | 10 | 100% | 372 functions analyzed |
 
 ### Issues (30)
 - [broken-import] Unresolved: ./globals.css
@@ -1448,5 +1448,5 @@ All Mermaid diagrams are embedded in their respective sections:
 
 ---
 
-*Generated by PGOS RIOS v4.0.0 | 2026-05-30T08:27:28.848Z | DO NOT EDIT MANUALLY*
+*Generated by PGOS RIOS v4.0.0 | 2026-05-30T08:36:20.251Z | DO NOT EDIT MANUALLY*
 *Regenerate: ./ai-pos-dropin.ps1 (Windows) or ./ai-pos-dropin.sh (Linux/macOS)*
