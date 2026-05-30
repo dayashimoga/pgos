@@ -1,8 +1,8 @@
 # AI REPOSITORY BRAIN — app
 
 > **FOR AI AGENTS**: Brain can be primary context source. Verify edge cases in source.
-> **Confidence**: 90% | **Generated**: 2026-05-30T08:12:52.843Z | **Engine**: PGOS AIRB v4.0.0
-> **Files Analyzed**: 123 | **LOC**: 17,891 | **Duration**: 783ms
+> **Confidence**: 90% | **Generated**: 2026-05-30T08:22:23.305Z | **Engine**: PGOS AIRB v4.0.0
+> **Files Analyzed**: 123 | **LOC**: 18,401 | **Duration**: 893ms
 > **README**: > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
 
 ---
@@ -39,6 +39,18 @@
 | 26 | Validation Engine | Confidence, staleness, checks |
 | 27 | Visualization Engine | Mermaid diagram index |
 | 28 | Adoption & Usability | Onboarding, CI/CD, usage guide |
+| 29 | Production Readiness | Readiness score, diagnostic scorecard |
+| 30 | Autonomous Engineering | Dynamic workflows, safety checklist |
+| 31 | Decision Memory (ADR) | Historical context, architectural decisions |
+| 32 | Code Ownership Map | Subsystems, directories, team ownership |
+| 33 | Runtime Dependency Graph | Transaction flow paths, traces |
+| 34 | Repository Health | Build, coverage, dead code cockpit |
+| 35 | AI Validation Pipeline | Defect, stub, test illusion detection |
+| 36 | Feature Lifecycle | Feature maturity stages, risk tracking |
+| 37 | Deployment Intelligence | CI/CD integrations, targets, environments |
+| 38 | Disaster Recovery | Recovery procedures, snapshot maps |
+| 39 | Knowledge Retention | Cognitive blindspots, documentation coverage |
+| 40 | Continuous Learning | session feedback loops, learning rules |
 
 ---
 
@@ -53,16 +65,16 @@
 | **Framework** | React |
 | **Architecture** | Monorepo |
 | **Maturity** | Growth |
-| **Scale** | 123 files · 17,891 LOC |
-| **Languages** | TypeScript (15906), JavaScript (1985) |
-| **Classes** | 60 |
-| **Functions** | 358 |
+| **Scale** | 123 files · 18,401 LOC |
+| **Languages** | TypeScript (15906), JavaScript (2495) |
+| **Classes** | 61 |
+| **Functions** | 371 |
 | **API Endpoints** | 93 |
 | **Risk Score** | 71/100 |
 | **Confidence** | 90% |
 
 ### Executive Summary
-app is a growth-grade TypeScript React application using Monorepo architecture. It contains 358 functions across 123 files with 93 API endpoints. The system implements 18 business feature(s) in the Analytics domain. Risk: 71/100. Confidence: 90%.
+app is a growth-grade TypeScript React application using Monorepo architecture. It contains 371 functions across 123 files with 93 API endpoints. The system implements 18 business feature(s) in the Analytics domain. Risk: 71/100. Confidence: 90%.
 
 ### Business Purpose
 > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
@@ -71,7 +83,7 @@ app is a growth-grade TypeScript React application using Monorepo architecture. 
 
 ## §2 — DOMAIN INTELLIGENCE
 
-### Domain Entities (167)
+### Domain Entities (165)
 | Entity | Type | File |
 |--------|------|------|
 | **Agent** | Interface | `packages/core/src/types/agent.ts` |
@@ -96,26 +108,26 @@ app is a growth-grade TypeScript React application using Monorepo architecture. 
 | **ExecutionFlows** | Interface | `packages/core/src/types/ai-pos-types.ts` |
 
 ### Domain Glossary
-- **Dirs**: Business entity inferred from findDirs
-- **Intelligence**: Business entity inferred from validateIntelligence
-- **ConfidenceGuidance**: Business entity inferred from getConfidenceGuidance
 - **ScoreLabel**: Business entity inferred from getScoreLabel
 - **Trace**: Business entity inferred from getTrace
 - **AgentIds**: Business entity inferred from getAgentIds
-- **Architecture**: Business entity inferred from validateArchitecture
-- **App**: Business entity inferred from createApp
-- **Users**: Business entity inferred from getUsers
-- **User**: Business entity inferred from createUser
-- **UserService**: Business entity inferred from getUserService
-- **All**: Business entity inferred from findAll
-- **ById**: Business entity inferred from findById
-- **Db**: Business entity inferred from getDb
-- **LineOfNode**: Business entity inferred from getLineOfNode
 - **Codebase**: Business entity inferred from validateCodebase
 - **Agent**: Contract/interface: Agent
 - **AgentConfig**: Contract/interface: AgentConfig
 - **AgentTask**: Contract/interface: AgentTask
 - **AgentTaskInput**: Contract/interface: AgentTaskInput
+- **AgentTaskOutput**: Contract/interface: AgentTaskOutput
+- **AgentFileChange**: Contract/interface: AgentFileChange
+- **AgentPipeline**: Contract/interface: AgentPipeline
+- **AgentStage**: Contract/interface: AgentStage
+- **AgentMemory**: Contract/interface: AgentMemory
+- **ProjectIdentity**: Contract/interface: ProjectIdentity
+- **DomainModel**: Contract/interface: DomainModel
+- **DomainEntity**: Contract/interface: DomainEntity
+- **DomainRelation**: Contract/interface: DomainRelation
+- **DomainLifecycle**: Contract/interface: DomainLifecycle
+- **GlossaryEntry**: Contract/interface: GlossaryEntry
+- **ArchitectureIntelligence**: Contract/interface: ArchitectureIntelligence
 
 ### Business Capabilities
 - **Path**: 6 endpoint(s) [GET, POST, /PATH]
@@ -140,38 +152,33 @@ app is a growth-grade TypeScript React application using Monorepo architecture. 
 - **KEY**: 1 endpoint(s) [GET]
 
 ### Business Processes
-- `findDirs()` in `ai-pos-dropin.js`
-- `validateIntelligence()` in `ai-pos-dropin.js`
-- `getConfidenceGuidance()` in `ai-pos-dropin.js`
 - `getScoreLabel()` in `apps/cli/src/commands/validate.ts`
 - `getTrace()` in `packages/agent-runtime/src/index.ts`
 - `getAgentIds()` in `packages/agent-runtime/src/index.ts`
-- `validateArchitecture()` in `packages/architecture-guard/src/index.ts`
-- `createApp()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `getUsers()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `createUser()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `updateUser()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `deleteUser()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `getUserService()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `findAll()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
-- `findById()` in `packages/context-engine/src/__tests__/analyzers.test.ts`
+- `validateCodebase()` in `packages/context-engine/src/validators/continuous-validator.ts`
+- `getLanguageFromExtension()` in `packages/core/src/utils/fs.ts`
+- `getBaseName()` in `packages/core/src/utils/fs.ts`
+- `getCurrentBranch()` in `packages/core/src/utils/git.ts`
+- `getCurrentSha()` in `packages/core/src/utils/git.ts`
+- `getShortSha()` in `packages/core/src/utils/git.ts`
+- `getLog()` in `packages/core/src/utils/git.ts`
+- `getChangedFiles()` in `packages/core/src/utils/git.ts`
+- `getUntrackedFiles()` in `packages/core/src/utils/git.ts`
+- `getStagedFiles()` in `packages/core/src/utils/git.ts`
+- `createCommit()` in `packages/core/src/utils/git.ts`
+- `getRemoteUrl()` in `packages/core/src/utils/git.ts`
 
 ### Entity Relationships
 - AnthropicAdapter —[extends]→ BaseAdapter
-- AnthropicAdapter —[depends-on]→ for
-- AnthropicAdapter —[depends-on]→ for
 - AnthropicAdapter —[depends-on]→ BaseAdapter
-- AnthropicResponse —[depends-on]→ for
-- AnthropicResponse —[depends-on]→ for
 - AnthropicResponse —[depends-on]→ BaseAdapter
 - BaseAdapter —[implements]→ ModelAdapter
 - OllamaAdapter —[extends]→ BaseAdapter
-- OllamaAdapter —[depends-on]→ for
-- OllamaAdapter —[depends-on]→ for
 - OllamaAdapter —[depends-on]→ BaseAdapter
-- OllamaChatResponse —[depends-on]→ for
-- OllamaChatResponse —[depends-on]→ for
 - OllamaChatResponse —[depends-on]→ BaseAdapter
+- OpenAIAdapter —[extends]→ BaseAdapter
+- OpenAIAdapter —[depends-on]→ BaseAdapter
+- OpenAIChatResponse —[depends-on]→ BaseAdapter
 
 ---
 
@@ -213,6 +220,38 @@ graph TD
     L0 --> L1
 ```
 
+### System Context Diagram (Three-Tier RIOS)
+```mermaid
+graph TD
+    subgraph "Application Layer"
+        A0["@pgos/api (api)"]
+        A1["@pgos/cli (cli)"]
+        A2["@pgos/dashboard (dashboard)"]
+    end
+    subgraph "Core Services / Engines"
+        C0["@pgos/agent-runtime (agent-runtime)"]
+        C1["@pgos/architecture-guard (architecture-guard)"]
+        C2["@pgos/context-engine (context-engine)"]
+        C3["@pgos/core (core)"]
+        C4["@pgos/doc-engine (doc-engine)"]
+        C5["@pgos/hallucination-detector (hallucination-detector)"]
+        C6["@pgos/memory-engine (memory-engine)"]
+        C7["@pgos/model-adapters (model-adapters)"]
+        C8["@pgos/observability (observability)"]
+        C9["@pgos/policy-engine (policy-engine)"]
+        C10["@pgos/recovery-engine (recovery-engine)"]
+        C11["@pgos/test-engine (test-engine)"]
+        C12["@pgos/token-optimizer (token-optimizer)"]
+        C13["@pgos/validation-engine (validation-engine)"]
+    end
+    subgraph "Infrastructure Layer"
+        I0["@pgos/semantic-git (semantic-git)"]
+    end
+    A0 --> C0
+    A1 --> C1
+    C0 --> I0
+```
+
 ---
 
 ## §4 — REPOSITORY KNOWLEDGE GRAPH
@@ -223,7 +262,7 @@ graph TD
 | Features | 18 |
 | Entities | 26 |
 | API Nodes | 0 |
-| Relationships | 112 |
+| Relationships | 100 |
 
 ### Knowledge Graph Diagram
 ```mermaid
@@ -256,27 +295,27 @@ graph TD
 
 | Feature | Status | Business Value | Files | Tests | Coverage | Risk |
 |---------|--------|----------------|-------|-------|----------|------|
-| **Dashboard** | implemented | high | 8 | 1 | 14% | high |
+| **Dashboard** | implemented | high | 7 | 1 | 14% | high |
 | **Cli** | partial | medium | 9 | 0 | 0% | high |
 | **Api** | implemented | high | 15 | 0 | 0% | high |
-| **Context Engine** | partial | high | 37 | 17 | 85% | high |
-| **Core** | partial | high | 21 | 1 | 5% | high |
-| **Doc Engine** | partial | high | 4 | 2 | 100% | low |
-| **Model Adapters** | implemented | high | 6 | 1 | 20% | low |
-| **Agent Runtime** | partial | high | 2 | 1 | 100% | low |
-| **Validation Engine** | partial | high | 3 | 2 | 100% | low |
+| **Context Engine** | implemented | high | 20 | 17 | 85% | high |
+| **Core** | partial | high | 20 | 1 | 5% | high |
+| **Model Adapters** | implemented | high | 5 | 1 | 20% | low |
+| **Agent Runtime** | implemented | high | 1 | 1 | 100% | low |
 | **Token Optimizer** | implemented | medium | 1 | 0 | 0% | high |
 | **Observability** | implemented | medium | 1 | 0 | 0% | low |
-| **Recovery Engine** | implemented | medium | 4 | 1 | 33% | low |
-| **Test Engine** | implemented | medium | 2 | 2 | 100% | low |
+| **Recovery Engine** | implemented | medium | 3 | 1 | 33% | low |
 | **Memory Engine** | implemented | medium | 1 | 0 | 0% | low |
 | **Semantic Git** | implemented | medium | 1 | 0 | 0% | low |
-| **Architecture Guard** | implemented | medium | 1 | 1 | 100% | low |
-| **Hallucination Detector** | implemented | medium | 2 | 1 | 100% | low |
-| **Policy Engine** | implemented | medium | 2 | 1 | 100% | low |
+| **Hallucination Detector** | implemented | medium | 1 | 1 | 100% | low |
+| **Doc Engine** | implemented | medium | 2 | 2 | 100% | low |
+| **Policy Engine** | implemented | medium | 1 | 1 | 100% | low |
+| **Architecture Guard** | implemented | medium | 0 | 1 | 100% | low |
+| **Test Engine** | implemented | medium | 0 | 2 | 100% | low |
+| **Validation Engine** | implemented | medium | 1 | 2 | 100% | low |
 
 ### Dashboard
-- **Purpose**: Application: Dashboard. 15 function(s). 1 test file(s)
+- **Purpose**: Application: Dashboard. 13 function(s). 1 test file(s). exports: ArchitecturePage, DocsPage, RootLayout, MemoryBrowserPage, DashboardPage
 - **Entrypoints**: `ArchitecturePage()`, `DocsPage()`, `RootLayout()`
 - **Status**: implemented | **Coverage**: 14%
 
@@ -291,19 +330,14 @@ graph TD
 - **Status**: implemented | **Coverage**: 0%
 
 ### Context Engine
-- **Purpose**: Package: Context Engine. 7 API endpoint(s). 86 function(s). 17 test file(s)
-- **Entrypoints**: `GET /users`, `POST /users`, `PUT /users/:id`, `DELETE /users/:id`, `POST /api/auth/login`
-- **Status**: partial | **Coverage**: 85%
+- **Purpose**: Package: Context Engine. 42 function(s). 17 test file(s)
+- **Entrypoints**: `extractAPIIntelligence()`, `extractConfigIntelligence()`, `extractEventIntelligence()`
+- **Status**: implemented | **Coverage**: 85%
 
 ### Core
 - **Purpose**: Package: Core. 41 function(s). 1 test file(s)
 - **Entrypoints**: `listFilesRecursive(), shouldIgnore(), fileExists(), safeStats(), safeReadFile(), safeWriteFile(), ensureDir(), safeRemove(), getLanguageFromExtension(), isBinaryFile(), getBaseName()`, `gitCommand(), isGitRepo(), getCurrentBranch(), getCurrentSha(), getShortSha(), getLog(), getChangedFiles(), getUntrackedFiles(), getStagedFiles(), createCommit(), getRemoteUrl(), stash(), stashPop()`, `sha256(), shortHash(), generateId(), slugify(), fingerprint()`
 - **Status**: partial | **Coverage**: 5%
-
-### Doc Engine
-- **Purpose**: Package: Doc Engine. 1 API endpoint(s). 34 function(s). 2 test file(s). exports: hello, runWorkerProcess, badFunc
-- **Entrypoints**: `GET L0`
-- **Status**: partial | **Coverage**: 100%
 
 ### Model Adapters
 - **Purpose**: Package: Model Adapters. 21 function(s). 1 test file(s). exports: createAdapter, getSupportedProviders, validateConfig
@@ -311,17 +345,22 @@ graph TD
 - **Status**: implemented | **Coverage**: 20%
 
 ### Agent Runtime
-- **Purpose**: Package: Agent Runtime. 17 function(s). 1 test file(s). exports: main, broken
-- **Status**: partial | **Coverage**: 100%
-
-### Validation Engine
-- **Purpose**: Package: Validation Engine. 12 function(s). 2 test file(s)
-- **Status**: partial | **Coverage**: 100%
+- **Purpose**: Package: Agent Runtime. 15 function(s). 1 test file(s)
+- **Status**: implemented | **Coverage**: 100%
 
 ### Token Optimizer
 - **Purpose**: Package: Token Optimizer. 10 function(s)
 - **Entrypoints**: `analyzeTokenUsage(), compressContext(), createBudget(), checkBudget(), generateMultiLevelSummary(), generateNavigationMap()`
 - **Status**: implemented | **Coverage**: 0%
+
+### Observability
+- **Purpose**: Package: Observability. 9 function(s)
+- **Status**: implemented | **Coverage**: 0%
+
+### Recovery Engine
+- **Purpose**: Package: Recovery Engine. 9 function(s). 1 test file(s). exports: restoreFromSnapshot, getRecoveryOptions, createSnapshot, listSnapshots, getSnapshot
+- **Entrypoints**: `restoreFromSnapshot(), getRecoveryOptions()`, `createSnapshot(), listSnapshots(), getSnapshot()`
+- **Status**: implemented | **Coverage**: 33%
 
 
 ---
@@ -330,50 +369,12 @@ graph TD
 
 > Top 50 functions ranked by importance (cross-module calls, exports, handler status)
 
-### `parseFiles()` — utility
-- **Purpose**: parse files
-- **File**: `packages/context-engine/src/parser/ast-parser.ts` L48
-- **Params**: filePaths, rootPath
-- **Called By**: analyzers.test.ts, validator.test.ts, vnext.test.ts, api-extractor.ts, architecture-detector.ts
-- **Side Effects**: writes state
-- **Async**: Yes | **Exported**: Yes
-
 ### `detectHallucinations()` — pure
 - **Purpose**: detect hallucinations
 - **File**: `packages/hallucination-detector/src/index.ts` L23
 - **Params**: rootPath
 - **Called By**: validation.ts, report.ts, validate.ts, hallucination.test.ts
 - **Async**: Yes | **Exported**: Yes
-
-### `runAllAnalyzers()` — pure
-- **Purpose**: run all analyzers
-- **File**: `packages/context-engine/src/analyzers/index.ts` L47
-- **Params**: mockRoot, files, depGraph, modules
-- **Calls**: parseFiles() in ast-parser.ts, detectArchitecture() in architecture-detector.ts, extractAPIIntelligence() in api-extractor.ts, classifyFileSafety() in safety-classifier.ts, analyzeRisks() in risk-analyzer.ts
-- **Called By**: analyzers.test.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `inferArchitecture()` — middleware
-- **Purpose**: infer architecture
-- **File**: `packages/architecture-guard/src/index.ts` L48
-- **Params**: rootPath
-- **Called By**: validation.ts, validate.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `validateArchitecture()` — middleware
-- **Purpose**: Validates architecture
-- **File**: `packages/architecture-guard/src/index.ts` L93
-- **Params**: rootPath, baseline
-- **Called By**: validation.ts, validate.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `extractDomainModel()` — pure
-- **Purpose**: extract domain model
-- **File**: `packages/context-engine/src/analyzers/domain-extractor.ts` L9
-- **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
-- **Async**: No | **Exported**: Yes
 
 ### `analyzeRuntime()` — pure
 - **Purpose**: analyze runtime
@@ -396,13 +397,6 @@ graph TD
 - **Params**: intel
 - **Called By**: generators.test.ts, artifact-orchestrator.ts
 - **Async**: No | **Exported**: Yes
-
-### `collectTestIntelligence()` — pure
-- **Purpose**: collect test intelligence
-- **File**: `packages/context-engine/src/analyzers/test-intelligence.ts` L25
-- **Params**: rootPath
-- **Called By**: vnext.test.ts, index.ts, readiness-engine.ts
-- **Async**: Yes | **Exported**: Yes
 
 ### `buildDependencyGraph()` — pure
 - **Purpose**: build dependency graph
@@ -546,6 +540,46 @@ graph TD
 ### `DocsPage()` — pure
 - **Purpose**: docs page
 - **File**: `apps/dashboard/src/app/docs/page.tsx` L10
+- **Async**: No | **Exported**: Yes
+
+### `RootLayout()` — pure
+- **Purpose**: root layout
+- **File**: `apps/dashboard/src/app/layout.tsx` L10
+- **Params**: {, }
+- **Async**: No | **Exported**: Yes
+
+### `MemoryBrowserPage()` — pure
+- **Purpose**: memory browser page
+- **File**: `apps/dashboard/src/app/memory/page.tsx` L10
+- **Async**: No | **Exported**: Yes
+
+### `DashboardPage()` — pure
+- **Purpose**: dashboard page
+- **File**: `apps/dashboard/src/app/page.tsx` L5
+- **Async**: No | **Exported**: Yes
+
+### `extractAPIIntelligence()` — pure
+- **Purpose**: extract a p i intelligence
+- **File**: `packages/context-engine/src/analyzers/api-extractor.ts` L9
+- **Params**: mockRoot, files
+- **Calls**: parseFiles() in ast-parser.ts
+- **Called By**: analyzers.test.ts, index.ts
+- **Async**: No | **Exported**: Yes
+
+### `extractEventIntelligence()` — pure
+- **Purpose**: extract event intelligence
+- **File**: `packages/context-engine/src/analyzers/event-intelligence.ts` L30
+- **Params**: rootPath, files
+- **Calls**: parseFiles() in ast-parser.ts
+- **Called By**: vnext.test.ts, index.ts
+- **Async**: No | **Exported**: Yes
+
+### `extractObservability()` — pure
+- **Purpose**: extract observability
+- **File**: `packages/context-engine/src/analyzers/observability-extractor.ts` L9
+- **Params**: mockRoot, files
+- **Calls**: parseFiles() in ast-parser.ts
+- **Called By**: analyzers.test.ts, index.ts
 - **Async**: No | **Exported**: Yes
 
 ### Function Call Graph
@@ -849,16 +883,16 @@ _No database models or repositories detected._
 - **Api**: No tests
 - **Context Engine**: `analyzers.test.ts`, `brain-generator.test.ts`, `context.test.ts`, `generators.test.ts`, `ai-pos-dropin.js`, `test-standalone.js`, `validator.test.ts`, `vnext.test.ts`, `architecture-detector.ts`, `data-intelligence.ts`, `domain-extractor.ts`, `feature-detector.ts`, `index.ts`, `readiness-engine.ts`, `test-intelligence.ts`, `task-planner.ts`, `ast-parser.ts`
 - **Core**: `core.test.ts`
-- **Doc Engine**: `doc.test.ts`, `index.ts`
 - **Model Adapters**: `adapters.test.ts`
 - **Agent Runtime**: `agent.test.ts`
-- **Validation Engine**: `validation.test.ts`, `checker.ts`
 - **Token Optimizer**: No tests
 - **Observability**: No tests
 - **Recovery Engine**: `recovery.test.ts`
-- **Test Engine**: `test-engine.test.ts`, `index.ts`
 - **Memory Engine**: No tests
 - **Semantic Git**: No tests
+- **Hallucination Detector**: `hallucination.test.ts`
+- **Doc Engine**: `doc.test.ts`, `index.ts`
+- **Policy Engine**: `policy.test.ts`
 
 ---
 
@@ -946,7 +980,7 @@ _No database models or repositories detected._
 | Logging | YES | 3 |
 | Metrics | NO | 0 |
 | Tracing | NO | 0 |
-| Health Checks | YES | 1 |
+| Health Checks | YES | 2 |
 
 ### Blind Spots
 - `apps/api/src/db/connection.ts` — Critical file with no logging instrumentation
@@ -980,19 +1014,19 @@ _No database models or repositories detected._
 
 - [medium] **todo** in `ai-pos-dropin.js:307` — / FIXME / HACK Detection ───────────────────────
 - [medium] **todo** in `ai-pos-dropin.js:310` — |FIXME|HACK|DEPRECATED|XXX|BUG)\b[:\s]*(.*)/i);
-- [medium] **todo** in `ai-pos-dropin.js:736` — ' || t.type === 'FIXME').length;
-- [medium] **todo** in `ai-pos-dropin.js:878` — /FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f
-- [medium] **todo** in `ai-pos-dropin.js:999` — of f.todos) {
-- [medium] **todo** in `ai-pos-dropin.js:1001` — .type.toLowerCase(),
-- [medium] **todo** in `ai-pos-dropin.js:1003` — .line,
-- [medium] **todo** in `ai-pos-dropin.js:1004` — .text,
-- [medium] **todo** in `ai-pos-dropin.js:1005` — .type === 'FIXME' || todo.type === 'BUG' ? 'high' : todo.type === 'HACK' ? 'high' : 'medium',
-- [medium] **todo** in `ai-pos-dropin.js:1082` — ' || t.type === 'FIXME'));
-- [medium] **todo** in `ai-pos-dropin.js:1084` — /FIXME markers` });
-- [medium] **todo** in `ai-pos-dropin.js:1085` — /FIXME` });
-- [medium] **todo** in `ai-pos-dropin.js:1939` — placeholders, or incomplete implementations');
-- [medium] **todo** in `ai-pos-dropin.js:2003` — ' || t.type === 'FIXME'));
-- [medium] **todo** in `ai-pos-dropin.js:2176` — placeholders, or incomplete implementations
+- [medium] **todo** in `ai-pos-dropin.js:857` — ' || t.type === 'FIXME').length;
+- [medium] **todo** in `ai-pos-dropin.js:1001` — /FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f
+- [medium] **todo** in `ai-pos-dropin.js:1122` — of f.todos) {
+- [medium] **todo** in `ai-pos-dropin.js:1124` — .type.toLowerCase(),
+- [medium] **todo** in `ai-pos-dropin.js:1126` — .line,
+- [medium] **todo** in `ai-pos-dropin.js:1127` — .text,
+- [medium] **todo** in `ai-pos-dropin.js:1128` — .type === 'FIXME' || todo.type === 'BUG' ? 'high' : todo.type === 'HACK' ? 'high' : 'medium',
+- [medium] **todo** in `ai-pos-dropin.js:1435` — ' || t.type === 'FIXME'));
+- [medium] **todo** in `ai-pos-dropin.js:1437` — /FIXME markers` });
+- [medium] **todo** in `ai-pos-dropin.js:1438` — /FIXME` });
+- [medium] **todo** in `ai-pos-dropin.js:2336` — placeholders, or incomplete implementations');
+- [medium] **todo** in `ai-pos-dropin.js:2400` — ' || t.type === 'FIXME'));
+- [medium] **todo** in `ai-pos-dropin.js:2755` — placeholders, or incomplete implementations
 - [high] **hack** in `apps/api/src/db/connection.ts:16` — to parse safely
 - [medium] **todo** in `apps/cli/src/commands/init.ts:70` — ', pattern: 'TODO', description: 'Disallow TODO comments in production code' },
 - [high] **fixme** in `apps/cli/src/commands/init.ts:71` — ', pattern: 'FIXME', description: 'Disallow FIXME comments' },
@@ -1021,7 +1055,7 @@ _No database models or repositories detected._
 _No decisions logged yet. Append here after major changes._
 
 ### Evolution History
-- **2026-05-30T08:12:52.843Z**: Brain generated. 123 files, 358 functions, 90% confidence.
+- **2026-05-30T08:22:23.305Z**: Brain generated. 123 files, 371 functions, 90% confidence.
 
 ---
 
@@ -1100,16 +1134,16 @@ _No decisions logged yet. Append here after major changes._
 ## §24 — TOKEN COMPRESSION ENGINE
 
 **L0 — Repository Snapshot** (~50 tokens)
-app: TypeScript React app, Monorepo, 123 files, 17,891 LOC, Analytics.
+app: TypeScript React app, Monorepo, 123 files, 18,401 LOC, Analytics.
 
 **L1 — Architecture Summary** (~150 tokens)
-Monorepo with 2 layers. 93 endpoints, 60 classes, Custom Auth/JWT auth. Risk: 71/100.
+Monorepo with 2 layers. 93 endpoints, 61 classes, Custom Auth/JWT auth. Risk: 71/100.
 
 **L2 — Runtime Summary** (~200 tokens)
 Startup: Load Configuration → Register Routes → Start Server. Request: Run Middleware Chain → Authenticate & Authorize → Validate Input → Execute Business Logic → Persist / Fetch Data → Send Response.
 
 **L3 — Feature Summary** (~300 tokens)
-Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Engine [partial/85%], Core [partial/5%], Doc Engine [partial/100%], Model Adapters [implemented/20%], Agent Runtime [partial/100%], Validation Engine [partial/100%], Token Optimizer [implemented/0%].
+Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Engine [implemented/85%], Core [partial/5%], Model Adapters [implemented/20%], Agent Runtime [implemented/100%], Token Optimizer [implemented/0%], Observability [implemented/0%], Recovery Engine [implemented/33%].
 
 **L4 — Module Summary** (~500 tokens)
 .: 3 files. apps/api/src/db: 2 files. apps/api/src/plugins: 1 files. apps/api/src/routes: 11 files. apps/api/src: 1 files. apps/cli/src/commands: 8 files. apps/cli/src: 1 files. apps/dashboard: 2 files. apps/dashboard/src/app/architecture: 1 files. apps/dashboard/src/app/docs: 1 files. apps/dashboard/src/app: 2 files. apps/dashboard/src/app/memory: 1 files. apps/dashboard/src/app/validation: 1 files. packages/agent-runtime/src/__tests__: 1 files. packages/agent-runtime/src: 1 files.
@@ -1123,11 +1157,11 @@ Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Eng
 
 | Check | Status |
 |-------|--------|
-| Real function bodies | YES (358) |
+| Real function bodies | YES (371) |
 | Stub/placeholder files | WARNING (19) |
 | Import resolution | WARNING |
 | Test coverage exists | YES |
-| Domain entities resolved | YES (167) |
+| Domain entities resolved | YES (165) |
 | Function intelligence | YES (top 50) |
 
 ---
@@ -1147,7 +1181,7 @@ Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Eng
 | Architecture Intelligence | 10 | 100% | Cross-module dependencies mapped |
 | No Circular Dependencies | 10 | 100% | 0 cycle(s) |
 | Code Quality | 10 | 85% | 19 files with TODO/FIXME |
-| Function Intelligence | 10 | 100% | 358 functions analyzed |
+| Function Intelligence | 10 | 100% | 371 functions analyzed |
 
 ### Issues (30)
 - [broken-import] Unresolved: ./globals.css
@@ -1220,5 +1254,223 @@ All Mermaid diagrams are embedded in their respective sections:
 
 ---
 
-*Generated by PGOS AIRB v4.0.0 | 2026-05-30T08:12:52.843Z | DO NOT EDIT MANUALLY*
+## §29 — PRODUCTION READINESS ENGINE
+
+**Overall Score: 65%** | **Status: NEEDS REFRACTORING**
+
+### Diagnostic Scorecard
+| Evaluation Area | Score | Details |
+|-----------------|-------|---------|
+| Build/Compile Configuration | 40% | No typescript build configuration seen |
+| Test Suite Density | 57% | 34 tests for 89 production files |
+| Security Architecture | 100% | No missing auth on sensitive routes detected |
+| Observability & Logging | 30% | 35 critical files lack logger imports |
+| Code Integrity (Zero Stubs) | 100% | Zero stubs/placeholders found |
+
+
+---
+
+## §30 — AUTONOMOUS ENGINEERING WORKFLOWS
+
+> High-fidelity task execution plans and safety protocols for autonomous coding agents.
+
+### Task: Add New REST API Endpoint
+- **Confidence**: 95% | **Estimated Blast Radius**: Medium (3-5 files)
+- **Action Steps**:
+  1. Define routing interface under apps/api/src/routes/ or equivalent routes path
+  2. Model payload validation schema matching the business entity (e.g. using Drizzle or Fastify schemas)
+  3. Register route inside primary server instance
+  4. Implement route controller and delegate core logic to Domain Services
+  5. Create integration tests matching the endpoint under tests/ integration paths
+  6. Run validation checks to ensure zero stub functions are introduced
+
+### Task: Integrate New Core Engine Analyzer
+- **Confidence**: 90% | **Estimated Blast Radius**: Low (2 files)
+- **Action Steps**:
+  1. Implement class structure extending a base adapter pattern
+  2. Add static parsing functions within the new package
+  3. Map new capabilities inside the Feature matrix
+  4. Validate using standard workspace vitest suite
+
+### Self-Correction & Safety Checklist
+1. Verify target directory structures before executing file creation.
+2. Perform dry-run dry-compilation using typescript type checks.
+3. Execute vitest suite to ensure no regression failures were introduced.
+4. Conduct a stub and placeholder check to catch un-implemented code blocks.
+
+
+---
+
+## §31 — ARCHITECTURAL DECISION RECORDS (ADR) MEMORY
+
+> Historical architectural decision logs to prevent design debates across agent sessions.
+
+### Architectural Decision: Monorepo Orchestration
+- **File**: `Inferred ADR 1` | **Date**: 2026-05-30
+- **Decision**: Use PNPM Workspaces combined with Turborepo for monorepo build coordination and caching.
+- **Reasoning**: Saves build time in CI/CD pipeline and coordinates package dependency maps locally.
+- **Alternatives Considered**: Nx, Lerna
+
+### Architectural Decision: RIOS Execution
+- **File**: `Inferred ADR 2` | **Date**: 2026-05-30
+- **Decision**: Pure Node.js zero-dependency ESM pipeline for repository digital twin mapping.
+- **Reasoning**: Enables rapid execution on host or isolated environments without dependency hell.
+- **Alternatives Considered**: Python scanning script, Rust binary
+
+
+---
+
+## §32 — CODE OWNERSHIP & RESPONSIBILITY MAP
+
+| System Area | Source Files | Responsibility Lead | Core Interface Files |
+|-------------|--------------|---------------------|----------------------|
+| Application Interfaces | 32 | API/Frontend Team | `connection.ts, schema.ts, websocket.ts` |
+| Core Services & Engines | 57 | Systems Architect Team | `index.ts, config-extractor.ts, event-intelligence.ts` |
+| Infrastructure Storage & Adapters | 0 | Platform Team | `` |
+
+
+---
+
+## §33 — RUNTIME DEPENDENCY GRAPH
+
+> Visualizing transaction executions, logic traces, and service chains.
+
+### Flow: RIOS Generation Execution Trace
+**Dashboard/CLI** (`ai-pos-dropin.js`) ➔ **Scanner Engine** (`ai-pos-dropin.js`) ➔ **AST Analyzer** (`ai-pos-dropin.js`) ➔ **Cross-Intelligence Engine** (`ai-pos-dropin.js`) ➔ **Digital Twin Writer** (`AI_REPOSITORY_BRAIN.md`)
+
+| Order | Step | File Path | Inferred Action |
+|-------|------|-----------|-----------------|
+| 1 | Dashboard/CLI | `ai-pos-dropin.js` | Process bootstrap and workspace discovery |
+| 2 | Scanner Engine | `ai-pos-dropin.js` | Walks file tree filtering test/mock scopes |
+| 3 | AST Analyzer | `ai-pos-dropin.js` | Regex analysis for functions, imports, stubs, and interfaces |
+| 4 | Cross-Intelligence Engine | `ai-pos-dropin.js` | Constructs dependency call graphs and architecture matrix |
+| 5 | Digital Twin Writer | `AI_REPOSITORY_BRAIN.md` | Publishes complete Repository twin containing 40 sections |
+
+### Flow: Core Agent Execution Trace (Inferred)
+**Interface** (`dashboard`) ➔ **Routing API** (`api`) ➔ **Context Engine** (`context-engine`) ➔ **LLM Adapter** (`model-adapters`)
+
+| Order | Step | File Path | Inferred Action |
+|-------|------|-----------|-----------------|
+| 1 | Interface | `apps/dashboard` | Receives user natural language instructions |
+| 2 | Routing API | `apps/api` | Dispatches request to Context Engine |
+| 3 | Context Engine | `packages/context-engine` | Reads AI Repository Brain for codebase structures |
+| 4 | LLM Adapter | `packages/model-adapters` | Fetches code changes from LLM with zero scans |
+
+
+---
+
+## §34 — REPOSITORY HEALTH DASHBOARD
+
+### System Context Dashboard
+| Metric | Status / Value | Indicator |
+|--------|----------------|-----------|
+| **Build Compile** | PASSING | OK |
+| **Total Code Files** | 123 | 89 Prod / 34 Tests / 1 Mocks |
+| **Test Coverage Density** | 38% | WARNING |
+| **Dead Code Modules** | 0 file(s) | Heuristic potential dead exports |
+| **Circular Dependencies** | 0 cycle(s) | CLEAN |
+| **Placeholders & Stubs** | 0 stub(s) | Flagged un-implemented markers |
+| **Deployment Readiness** | 65% | NEEDS REFRACTORING |
+
+
+---
+
+## §35 — AI VALIDATION PIPELINE
+
+> Identifying stubs, unimplemented placeholder logic, and test illusions.
+
+### Stubs & Placeholders (0 found)
+- Zero unimplemented stub functions detected
+
+### Fake Success Assertions (0 found)
+- Zero fake success mock returns detected
+
+### Test Illusions (3 found)
+- Found literal static assertion (possible test illusion) in `apps/dashboard/src/app/validation/page.tsx`
+- Found literal static assertion (possible test illusion) in `packages/context-engine/src/__tests__/analyzers.test.ts`
+- Found literal static assertion (possible test illusion) in `packages/context-engine/src/__tests__/validator.test.ts`
+
+
+---
+
+## §36 — FEATURE LIFECYCLE INTELLIGENCE
+
+| Mapped Feature | Maturity Stage | Test Coverage | Risk Level |
+|----------------|----------------|---------------|------------|
+| Dashboard | Prototype / Unstable | 14% | high |
+| Cli | Prototype / Unstable | 0% | high |
+| Api | Prototype / Unstable | 0% | high |
+| Context Engine | Stable | 85% | high |
+| Core | Prototype / Unstable | 5% | high |
+| Model Adapters | Active Refactoring | 20% | low |
+| Agent Runtime | Stable | 100% | low |
+| Token Optimizer | Prototype / Unstable | 0% | high |
+| Observability | Prototype / Unstable | 0% | low |
+| Recovery Engine | Stable | 33% | low |
+| Memory Engine | Prototype / Unstable | 0% | low |
+| Semantic Git | Prototype / Unstable | 0% | low |
+| Hallucination Detector | Stable | 100% | low |
+| Doc Engine | Stable | 100% | low |
+| Policy Engine | Stable | 100% | low |
+| Architecture Guard | Stable | 100% | low |
+| Test Engine | Stable | 100% | low |
+| Validation Engine | Stable | 100% | low |
+
+
+---
+
+## §37 — DEPLOYMENT INTELLIGENCE
+
+### Target Environments & Runtimes
+- **Local Process Execution**: Configured in `package.json script runners`
+
+### CI/CD Pipeline Configuration
+- **No CI Workflow configuration found**: Loaded from ``
+
+
+---
+
+## §38 — DISASTER RECOVERY INTELLIGENCE
+
+### Rollback Procedures
+#### Action: Codebase State Snapshot rollback
+- Leverage git tree snapshots or recovery package rollbacks to restore last stable commit.
+
+#### Action: Automated Health Verification
+- Verify system context by running full vitest workspace build: pnpm test.
+
+
+
+---
+
+## §39 — KNOWLEDGE RETENTION ENGINE
+
+- **Semantic Documentation Coverage**: 6% of code files have meaningful description text.
+
+### Cognitive Blindspots (No structural descriptions)
+- `apps/api/src/db/connection.ts`
+- `apps/api/src/db/schema.ts`
+- `apps/api/src/routes/agents.ts`
+- `apps/api/src/routes/context.ts`
+- `apps/api/src/routes/docs.ts`
+- `apps/api/src/routes/git.ts`
+- `apps/api/src/routes/memory.ts`
+- `apps/api/src/routes/projects.ts`
+- `apps/api/src/routes/recovery.ts`
+- `apps/api/src/routes/sessions.ts`
+
+
+---
+
+## §40 — CONTINUOUS LEARNING ENGINE
+
+### AI Operating Rules & Feedback Loops
+- Feedback loops should update .guardian/ai-pos/AI_REPOSITORY_BRAIN.md after major system updates
+- AI sessions must trace and log successful modifications to the ADR Memory block §31
+- Continuous learning metrics should track repeat code patterns and adjust blocklists dynamically
+
+
+---
+
+*Generated by PGOS RIOS v4.0.0 | 2026-05-30T08:22:23.305Z | DO NOT EDIT MANUALLY*
 *Regenerate: ./ai-pos-dropin.ps1 (Windows) or ./ai-pos-dropin.sh (Linux/macOS)*

@@ -1,11 +1,11 @@
 {
   "version": "4.0.0",
-  "generatedAt": "2026-05-30T08:12:52.843Z",
-  "duration": 783,
+  "generatedAt": "2026-05-30T08:22:23.305Z",
+  "duration": 893,
   "project": {
     "name": "app",
     "files": 123,
-    "loc": 17891,
+    "loc": 18401,
     "language": "TypeScript",
     "framework": "React",
     "architecture": "Monorepo"
@@ -14,7 +14,45 @@
   "confidence": 90,
   "endpoints": 93,
   "features": 18,
-  "entities": 167,
+  "entities": 165,
   "functions": 50,
-  "knowledgeGraphNodes": 100
+  "knowledgeGraphNodes": 100,
+  "readiness": {
+    "score": 65,
+    "status": "NEEDS REFRACTORING",
+    "checks": [
+      {
+        "area": "Build/Compile Configuration",
+        "score": 40,
+        "detail": "No typescript build configuration seen"
+      },
+      {
+        "area": "Test Suite Density",
+        "score": 57,
+        "detail": "34 tests for 89 production files"
+      },
+      {
+        "area": "Security Architecture",
+        "score": 100,
+        "detail": "No missing auth on sensitive routes detected"
+      },
+      {
+        "area": "Observability & Logging",
+        "score": 30,
+        "detail": "35 critical files lack logger imports"
+      },
+      {
+        "area": "Code Integrity (Zero Stubs)",
+        "score": 100,
+        "detail": "Zero stubs/placeholders found"
+      }
+    ]
+  },
+  "health": {
+    "coverage": 38,
+    "deadCodeFiles": 0,
+    "circularDependencies": 0,
+    "stubCount": 0,
+    "readinessScore": 65
+  }
 }
