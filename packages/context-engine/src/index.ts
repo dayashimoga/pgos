@@ -15,6 +15,8 @@ export * from './validators/continuous-validator.js';
 
 // Compiler
 export * from './compiler/context-compiler.js';
+export * from './compiler/task-planner.js';
+export * from './compiler/memory-engine.js';
 
 // Generators
 export * from './generators/markdown-generators.js';

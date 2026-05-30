@@ -20,6 +20,8 @@ import { analyzeSecurityModel } from './security-analyzer.js';
 import { analyzePerformance } from './performance-analyzer.js';
 import { extractObservability } from './observability-extractor.js';
 import { analyzeRuntime } from './runtime-analyzer.js';
+import { collectTestIntelligence } from './test-intelligence.js';
+import { evaluateReadiness } from './readiness-engine.js';
 
 export { detectArchitecture } from './architecture-detector.js';
 export { extractAPIIntelligence } from './api-extractor.js';
@@ -32,6 +34,8 @@ export { analyzeSecurityModel } from './security-analyzer.js';
 export { analyzePerformance } from './performance-analyzer.js';
 export { extractObservability } from './observability-extractor.js';
 export { analyzeRuntime } from './runtime-analyzer.js';
+export { collectTestIntelligence } from './test-intelligence.js';
+export { evaluateReadiness } from './readiness-engine.js';
 
 /**
  * Executes all intelligence analyzers on parsed file structures.
