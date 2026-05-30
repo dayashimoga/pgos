@@ -32,8 +32,15 @@ logs/
 coverage/
 
 # Guardian data (local project state)
-.guardian/snapshots/
-.guardian/artifacts/
+.guardian/
+**/.guardian/
+
+# Planning & Scratchpads
+*plan.md
+*_plan.md
+
+# Test/CLI leftovers
+apps/cli/--root-path/
 
 # Turbo
 .turbo/
@@ -43,4 +50,5 @@ docker-compose.override.yml
 
 # pnpm store
 .pnpm-store/
+
 
