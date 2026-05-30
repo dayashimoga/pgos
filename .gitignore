@@ -49,6 +49,6 @@ apps/cli/--root-path/
 docker-compose.override.yml
 
 # pnpm store
+.pnpm-store
 .pnpm-store/
-
-
+**/.pnpm-store/
