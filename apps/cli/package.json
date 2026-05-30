@@ -1,0 +1,38 @@
+{
+  "name": "@pgos/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "guardian": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@pgos/core": "workspace:*",
+    "@pgos/context-engine": "workspace:*",
+    "@pgos/recovery-engine": "workspace:*",
+    "@pgos/validation-engine": "workspace:*",
+    "@pgos/hallucination-detector": "workspace:*",
+    "@pgos/architecture-guard": "workspace:*",
+    "@pgos/model-adapters": "workspace:*",
+    "@pgos/doc-engine": "workspace:*",
+    "commander": "^12.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.0",
+    "cli-table3": "^0.6.5",
+    "inquirer": "^10.0.0",
+    "boxen": "^8.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "tsx": "^4.16.0",
+    "rimraf": "^5.0.0",
+    "@types/node": "^22.0.0"
+  }
+}

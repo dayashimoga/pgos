@@ -1,0 +1,52 @@
+# ============================================================
+# .dockerignore — PGOS Build Context Exclusions
+# Keeps Docker build context lean by excluding local artifacts
+# that will be installed fresh inside the container.
+# ============================================================
+
+# Node dependencies — installed fresh in container
+node_modules
+**/node_modules
+
+# Build outputs — rebuilt inside container
+dist
+**/dist
+
+# Local development tooling
+.turbo
+**/.turbo
+coverage
+
+# IDE / OS artifacts
+.vscode
+.idea
+*.DS_Store
+Thumbs.db
+
+# Environment secrets — never send to Docker
+.env
+.env.*
+!.env.example
+
+# Git history (speeds up context transfer)
+.git
+.gitignore
+
+# Test artifacts
+**/.guardian
+**/mock-project
+**/mock-*-project
+
+# Docs (not needed for build/test)
+docs
+*.md
+!README.md
+
+# Scripts (the Dockerfile controls execution)
+docker-test.sh
+docker-test.ps1
+docker-run.ps1
+ai-pos-dropin.ps1
+ai-pos-dropin.sh
+pgos.ps1
+pgos.sh

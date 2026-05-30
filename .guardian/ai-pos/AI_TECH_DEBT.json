@@ -1,0 +1,313 @@
+{
+  "items": [
+    {
+      "type": "todo",
+      "file": "ai-pos-dropin.js",
+      "description": "Contains 2 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "ai-pos-dropin.js",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "apps/api/src/db/connection.ts",
+      "description": "Contains 1 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "apps/api/src/routes/docs.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "apps/api/src/routes/git.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "apps/cli/src/commands/init.ts",
+      "description": "Contains 3 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "apps/cli/src/commands/init.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "apps/cli/src/commands/report.ts",
+      "description": "Contains 3 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "apps/cli/src/commands/report.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "apps/dashboard/src/app/docs/page.tsx",
+      "description": "Contains 1 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "apps/dashboard/src/app/docs/page.tsx",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "apps/dashboard/src/app/memory/page.tsx",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "apps/dashboard/src/app/validation/page.tsx",
+      "description": "Contains 2 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "apps/dashboard/src/app/validation/page.tsx",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/agent-runtime/src/__tests__/agent.test.ts",
+      "description": "Contains 4 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/agent-runtime/src/__tests__/agent.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/agent-runtime/src/index.ts",
+      "description": "Contains 2 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/agent-runtime/src/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/__tests__/analyzers.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/__tests__/context.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/context-engine/src/__tests__/generators.test.ts",
+      "description": "Contains 2 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/__tests__/generators.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/__tests__/validator.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/context-engine/src/analyzers/index.ts",
+      "description": "Contains 6 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/analyzers/security-analyzer.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/generators/intelligence-generators.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/context-engine/src/validators/continuous-validator.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/core/src/__tests__/core.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/core/src/constants/index.ts",
+      "description": "Contains 3 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/core/src/constants/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/core/src/types/ai-pos-types.ts",
+      "description": "Contains 1 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "todo",
+      "file": "packages/core/src/types/validation.ts",
+      "description": "Contains 3 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/core/src/types/validation.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/core/src/utils/git.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/doc-engine/src/__tests__/doc.test.ts",
+      "description": "Contains 5 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/doc-engine/src/__tests__/doc.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/doc-engine/src/index.ts",
+      "description": "Contains 5 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/doc-engine/src/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/doc-engine/src/reports/report-generator.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/hallucination-detector/src/__tests__/hallucination.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/model-adapters/src/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/model-adapters/src/ollama/adapter.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/policy-engine/src/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/recovery-engine/src/__tests__/recovery.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/semantic-git/src/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/test-engine/src/__tests__/test-engine.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "stub",
+      "file": "packages/test-engine/src/index.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/validation-engine/src/__tests__/validation.test.ts",
+      "description": "Contains 11 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/validation-engine/src/__tests__/validation.test.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    },
+    {
+      "type": "todo",
+      "file": "packages/validation-engine/src/completeness/checker.ts",
+      "description": "Contains 9 TODO/FIXME comments",
+      "severity": "medium"
+    },
+    {
+      "type": "stub",
+      "file": "packages/validation-engine/src/completeness/checker.ts",
+      "description": "Contains placeholder stubs or throw directives",
+      "severity": "high"
+    }
+  ],
+  "totalCount": 51,
+  "criticalCount": 34,
+  "estimatedEffort": "1-2 sprints"
+}

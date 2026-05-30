@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+build/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Testing
+coverage/
+
+# Guardian data (local project state)
+.guardian/snapshots/
+.guardian/artifacts/
+
+# Turbo
+.turbo/
+
+# Docker
+docker-compose.override.yml
+
+# pnpm store
+.pnpm-store/
+

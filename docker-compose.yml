@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: pgos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pgos
+      POSTGRES_PASSWORD: pgos_dev
+      POSTGRES_DB: pgos
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgos_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pgos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: pgos-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - pgos_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: pgos-chromadb
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - pgos_chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+
+  # ── Test runner ────────────────────────────────────────────
+  # Runs the full PGOS test suite inside Docker.
+  # No local Node.js required.
+  # Usage: docker-compose run --rm pgos-test
+  #        docker-compose run --rm pgos-test pnpm --filter @pgos/core test
+  pgos-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+      target: test
+    container_name: pgos-test-runner
+    environment:
+      - NODE_ENV=test
+      - CI=true
+    # No network or DB needed for unit tests
+    profiles:
+      - test
+
+  # ── Build runner ──────────────────────────────────────────
+  # Compiles TypeScript for all packages inside Docker.
+  # Usage: docker-compose run --rm pgos-build
+  pgos-build:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+      target: deps
+    container_name: pgos-build-runner
+    command: ["pnpm", "build"]
+    profiles:
+      - build
+
+volumes:
+  pgos_postgres_data:
+  pgos_redis_data:
+  pgos_chroma_data:

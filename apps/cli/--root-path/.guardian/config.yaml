@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "project": {
+    "name": "--root-path",
+    "rootPath": "/app/apps/cli/--root-path",
+    "createdAt": "2026-05-26T06:21:52.749Z"
+  },
+  "context": {
+    "levels": [
+      "L0",
+      "L1",
+      "L2"
+    ],
+    "maxTokens": 40000,
+    "autoCompile": true
+  },
+  "snapshots": {
+    "autoSnapshot": true,
+    "retentionDays": 30,
+    "maxSnapshots": 100
+  },
+  "validation": {
+    "autoValidate": true,
+    "strictMode": false
+  }
+}

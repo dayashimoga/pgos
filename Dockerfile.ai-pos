@@ -1,0 +1,17 @@
+# ============================================================
+# AI-POS Drop-In Docker Engine
+# Standard, multi-platform containerized environment.
+# Enables AI-POS execution inside isolated Docker environments
+# without requiring NodeJS, Bash, or PowerShell on the host!
+# ============================================================
+
+FROM node:20-alpine
+
+# Set execution workspace
+WORKDIR /app
+
+# Copy the universal drop-in scanner script
+COPY ai-pos-dropin.js /usr/local/bin/ai-pos-scanner.js
+
+# Setup execution command
+CMD ["node", "/usr/local/bin/ai-pos-scanner.js"]

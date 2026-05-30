@@ -1,0 +1,175 @@
+{
+  "startup": {
+    "name": "Startup",
+    "description": "Bootstrap container setup and listener startup.",
+    "steps": [
+      {
+        "order": 0,
+        "action": "Initialize server.ts",
+        "file": "apps/api/src/server.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 1,
+        "action": "Initialize index.ts",
+        "file": "apps/cli/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 2,
+        "action": "Initialize index.ts",
+        "file": "packages/agent-runtime/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 3,
+        "action": "Initialize index.ts",
+        "file": "packages/architecture-guard/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 4,
+        "action": "Initialize domain-extractor.ts",
+        "file": "packages/context-engine/src/analyzers/domain-extractor.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 5,
+        "action": "Initialize index.ts",
+        "file": "packages/context-engine/src/analyzers/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 6,
+        "action": "Initialize index.ts",
+        "file": "packages/context-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 7,
+        "action": "Initialize index.ts",
+        "file": "packages/core/src/constants/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 8,
+        "action": "Initialize index.ts",
+        "file": "packages/core/src/errors/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 9,
+        "action": "Initialize index.ts",
+        "file": "packages/core/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 10,
+        "action": "Initialize index.ts",
+        "file": "packages/core/src/types/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 11,
+        "action": "Initialize index.ts",
+        "file": "packages/doc-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 12,
+        "action": "Initialize index.ts",
+        "file": "packages/hallucination-detector/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 13,
+        "action": "Initialize index.ts",
+        "file": "packages/memory-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 14,
+        "action": "Initialize index.ts",
+        "file": "packages/model-adapters/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 15,
+        "action": "Initialize index.ts",
+        "file": "packages/observability/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 16,
+        "action": "Initialize index.ts",
+        "file": "packages/policy-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 17,
+        "action": "Initialize index.ts",
+        "file": "packages/recovery-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 18,
+        "action": "Initialize index.ts",
+        "file": "packages/semantic-git/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 19,
+        "action": "Initialize index.ts",
+        "file": "packages/test-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 20,
+        "action": "Initialize index.ts",
+        "file": "packages/token-optimizer/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      },
+      {
+        "order": 21,
+        "action": "Initialize index.ts",
+        "file": "packages/validation-engine/src/index.ts",
+        "description": "Setup routing, variables, and server listener.",
+        "async": true
+      }
+    ]
+  },
+  "request": {
+    "name": "Request Flow",
+    "description": "Client dispatcher handler chain.",
+    "steps": [
+      {
+        "order": 0,
+        "action": "Request Dispatch",
+        "file": "global",
+        "description": "Resolve request handler route and run auth boundaries.",
+        "async": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "version": "3.0.0",
+  "generatedAt": "2026-05-30T04:25:20.717Z",
+  "duration": 93,
+  "project": {
+    "name": "app",
+    "files": 1,
+    "loc": 1718,
+    "language": "JavaScript",
+    "framework": "Plain Application",
+    "architecture": "Layered"
+  },
+  "risk": 3,
+  "confidence": 85,
+  "endpoints": 6,
+  "features": 1,
+  "entities": 0,
+  "functions": 49,
+  "knowledgeGraphNodes": 8
+}

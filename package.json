@@ -1,0 +1,37 @@
+{
+  "name": "pgos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Project Guardian OS — AI-native project runtime, validation, portability, recovery, context, and quality operating system",
+  "author": "PGOS Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.1.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:coverage": "vitest run --coverage",
+    "test:integration": "turbo test:integration",
+    "clean": "turbo clean",
+    "db:generate": "pnpm --filter @pgos/api db:generate",
+    "db:migrate": "pnpm --filter @pgos/api db:migrate",
+    "db:push": "pnpm --filter @pgos/api db:push",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "guardian": "pnpm --filter @pgos/cli start",
+    "test:doc": "NODE_ENV=production pnpm --filter @pgos/context-engine --filter @pgos/doc-engine test"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.9",
+    "prettier": "^3.3.0",
+    "turbo": "^2.0.4",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.9"
+  }
+}
