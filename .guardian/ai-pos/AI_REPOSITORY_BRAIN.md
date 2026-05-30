@@ -1,8 +1,8 @@
 # AI REPOSITORY BRAIN — app
 
 > **FOR AI AGENTS**: Brain can be primary context source. Verify edge cases in source.
-> **Confidence**: 90% | **Generated**: 2026-05-30T08:22:23.305Z | **Engine**: PGOS AIRB v4.0.0
-> **Files Analyzed**: 123 | **LOC**: 18,401 | **Duration**: 893ms
+> **Confidence**: 90% | **Generated**: 2026-05-30T08:27:28.848Z | **Engine**: PGOS AIRB v4.0.0
+> **Files Analyzed**: 123 | **LOC**: 18,406 | **Duration**: 983ms
 > **README**: > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
 
 ---
@@ -65,16 +65,16 @@
 | **Framework** | React |
 | **Architecture** | Monorepo |
 | **Maturity** | Growth |
-| **Scale** | 123 files · 18,401 LOC |
-| **Languages** | TypeScript (15906), JavaScript (2495) |
+| **Scale** | 123 files · 18,406 LOC |
+| **Languages** | TypeScript (15906), JavaScript (2500) |
 | **Classes** | 61 |
 | **Functions** | 371 |
 | **API Endpoints** | 93 |
-| **Risk Score** | 71/100 |
+| **Risk Score** | 65/100 |
 | **Confidence** | 90% |
 
 ### Executive Summary
-app is a growth-grade TypeScript React application using Monorepo architecture. It contains 371 functions across 123 files with 93 API endpoints. The system implements 18 business feature(s) in the Analytics domain. Risk: 71/100. Confidence: 90%.
+app is a growth-grade TypeScript React application using Monorepo architecture. It contains 371 functions across 123 files with 93 API endpoints. The system implements 18 business feature(s) in the Analytics domain. Risk: 65/100. Confidence: 90%.
 
 ### Business Purpose
 > AI-native project runtime, validation, portability, recovery, context, and quality operating system for AI-assisted software development.
@@ -262,7 +262,7 @@ graph TD
 | Features | 18 |
 | Entities | 26 |
 | API Nodes | 0 |
-| Relationships | 100 |
+| Relationships | 72 |
 
 ### Knowledge Graph Diagram
 ```mermaid
@@ -373,37 +373,7 @@ graph TD
 - **Purpose**: detect hallucinations
 - **File**: `packages/hallucination-detector/src/index.ts` L23
 - **Params**: rootPath
-- **Called By**: validation.ts, report.ts, validate.ts, hallucination.test.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `analyzeRuntime()` — pure
-- **Purpose**: analyze runtime
-- **File**: `packages/context-engine/src/analyzers/runtime-analyzer.ts` L9
-- **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
-- **Async**: No | **Exported**: Yes
-
-### `generateRuntimeGraph()` — pure
-- **Purpose**: generate runtime graph
-- **File**: `packages/context-engine/src/generators/graph-generators.ts` L38
-- **Params**: intel
-- **Called By**: generators.test.ts, artifact-orchestrator.ts
-- **Async**: No | **Exported**: Yes
-
-### `generateRuntimeMd()` — pure
-- **Purpose**: generate runtime md
-- **File**: `packages/context-engine/src/generators/markdown-generators.ts` L150
-- **Params**: intel
-- **Called By**: generators.test.ts, artifact-orchestrator.ts
-- **Async**: No | **Exported**: Yes
-
-### `buildDependencyGraph()` — pure
-- **Purpose**: build dependency graph
-- **File**: `packages/context-engine/src/parser/dependency-parser.ts` L24
-- **Params**: rootPath
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, context-compiler.ts, continuous-validator.ts
+- **Called By**: validation.ts, report.ts, validate.ts
 - **Async**: Yes | **Exported**: Yes
 
 ### `semanticCommit()` — pure
@@ -475,61 +445,29 @@ graph TD
 - **Purpose**: Creates validate command
 - **File**: `apps/cli/src/commands/validate.ts` L16
 - **Params**: program
-- **Calls**: detectHallucinations() in index.ts, inferArchitecture() in index.ts, validateArchitecture() in index.ts
+- **Calls**: detectHallucinations() in index.ts
 - **Called By**: index.ts
 - **Async**: No | **Exported**: Yes
 
-### `resolveImportPath()` — pure
-- **Purpose**: resolve import path
-- **File**: `packages/context-engine/src/parser/dependency-parser.ts` L133
-- **Params**: currentFile, importSource, allFiles
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, context-compiler.ts, continuous-validator.ts
+### `generateRuntimeGraph()` — pure
+- **Purpose**: generate runtime graph
+- **File**: `packages/context-engine/src/generators/graph-generators.ts` L38
+- **Params**: intel
+- **Called By**: artifact-orchestrator.ts
 - **Async**: No | **Exported**: Yes
 
-### `extractConfigIntelligence()` — pure
-- **Purpose**: extract config intelligence
-- **File**: `packages/context-engine/src/analyzers/config-extractor.ts` L9
-- **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
-- **Async**: Yes | **Exported**: Yes
+### `generateRuntimeMd()` — pure
+- **Purpose**: generate runtime md
+- **File**: `packages/context-engine/src/generators/markdown-generators.ts` L150
+- **Params**: intel
+- **Called By**: artifact-orchestrator.ts
+- **Async**: No | **Exported**: Yes
 
-### `analyzePerformance()` — pure
-- **Purpose**: analyze performance
-- **File**: `packages/context-engine/src/analyzers/performance-analyzer.ts` L10
-- **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `analyzeSecurityModel()` — pure
-- **Purpose**: analyze security model
-- **File**: `packages/context-engine/src/analyzers/security-analyzer.ts` L10
-- **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `createSnapshot()` — pure
-- **Purpose**: Creates snapshot
-- **File**: `packages/recovery-engine/src/snapshot/creator.ts` L40
-- **Params**: options
-- **Called By**: recovery.test.ts, strategies.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `listSnapshots()` — pure
-- **Purpose**: list snapshots
-- **File**: `packages/recovery-engine/src/snapshot/creator.ts` L144
+### `buildDependencyGraph()` — pure
+- **Purpose**: build dependency graph
+- **File**: `packages/context-engine/src/parser/dependency-parser.ts` L24
 - **Params**: rootPath
-- **Called By**: recovery.test.ts, strategies.ts
-- **Async**: Yes | **Exported**: Yes
-
-### `getSnapshot()` — pure
-- **Purpose**: Retrieves snapshot
-- **File**: `packages/recovery-engine/src/snapshot/creator.ts` L174
-- **Params**: rootPath, snapshotId
-- **Called By**: recovery.test.ts, strategies.ts
+- **Called By**: context-compiler.ts, continuous-validator.ts
 - **Async**: Yes | **Exported**: Yes
 
 ### `ArchitecturePage()` — pure
@@ -558,28 +496,70 @@ graph TD
 - **File**: `apps/dashboard/src/app/page.tsx` L5
 - **Async**: No | **Exported**: Yes
 
-### `extractAPIIntelligence()` — pure
-- **Purpose**: extract a p i intelligence
-- **File**: `packages/context-engine/src/analyzers/api-extractor.ts` L9
-- **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
+### `resolveImportPath()` — pure
+- **Purpose**: resolve import path
+- **File**: `packages/context-engine/src/parser/dependency-parser.ts` L133
+- **Params**: currentFile, importSource, allFiles
+- **Called By**: context-compiler.ts, continuous-validator.ts
 - **Async**: No | **Exported**: Yes
 
-### `extractEventIntelligence()` — pure
-- **Purpose**: extract event intelligence
-- **File**: `packages/context-engine/src/analyzers/event-intelligence.ts` L30
-- **Params**: rootPath, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: vnext.test.ts, index.ts
+### `createAdapter()` — pure
+- **Purpose**: Creates adapter
+- **File**: `packages/model-adapters/src/index.ts` L16
+- **Params**: config
 - **Async**: No | **Exported**: Yes
 
-### `extractObservability()` — pure
-- **Purpose**: extract observability
-- **File**: `packages/context-engine/src/analyzers/observability-extractor.ts` L9
+### `getSupportedProviders()` — pure
+- **Purpose**: Retrieves supported providers
+- **File**: `packages/model-adapters/src/index.ts` L63
+- **Async**: No | **Exported**: Yes
+
+### `validateConfig()` — pure
+- **Purpose**: Validates config
+- **File**: `packages/model-adapters/src/index.ts` L78
+- **Params**: config
+- **Async**: No | **Exported**: Yes
+
+### `analyzeTokenUsage()` — pure
+- **Purpose**: analyze token usage
+- **File**: `packages/token-optimizer/src/index.ts` L30
+- **Params**: contents, string>
+- **Async**: No | **Exported**: Yes
+
+### `compressContext()` — pure
+- **Purpose**: compress context
+- **File**: `packages/token-optimizer/src/index.ts` L51
+- **Params**: content, maxTokens, strategy
+- **Async**: No | **Exported**: Yes
+
+### `createBudget()` — pure
+- **Purpose**: Creates budget
+- **File**: `packages/token-optimizer/src/index.ts` L105
+- **Params**: totalTokens, allocations, number>
+- **Async**: No | **Exported**: Yes
+
+### `checkBudget()` — pure
+- **Purpose**: Validates budget
+- **File**: `packages/token-optimizer/src/index.ts` L126
+- **Params**: budget, section, content
+- **Async**: No | **Exported**: Yes
+
+### `generateMultiLevelSummary()` — pure
+- **Purpose**: generate multi level summary
+- **File**: `packages/token-optimizer/src/index.ts` L143
+- **Params**: intel, level
+- **Async**: No | **Exported**: Yes
+
+### `generateNavigationMap()` — pure
+- **Purpose**: generate navigation map
+- **File**: `packages/token-optimizer/src/index.ts` L208
+- **Params**: intel
+- **Async**: No | **Exported**: Yes
+
+### `analyzeRuntime()` — pure
+- **Purpose**: analyze runtime
+- **File**: `packages/context-engine/src/analyzers/runtime-analyzer.ts` L9
 - **Params**: mockRoot, files
-- **Calls**: parseFiles() in ast-parser.ts
-- **Called By**: analyzers.test.ts, index.ts
 - **Async**: No | **Exported**: Yes
 
 ### Function Call Graph
@@ -608,11 +588,12 @@ graph TD
     recoveryts["recovery.ts"]
     indexts -->|registerRecoveryCommand| recoveryts
     indexts -->|registerReportCommand| reportts
-    analyzerstestts["analyzers.test.ts"]
-    astparserts["ast-parser.ts"]
-    analyzerstestts -->|parseFiles| astparserts
+    contextcompilerts["context-compiler.ts"]
     dependencyparserts["dependency-parser.ts"]
-    analyzerstestts -->|buildDependencyGraph| dependencyparserts
+    contextcompilerts -->|buildDependencyGraph| dependencyparserts
+    artifactorchestratorts["artifact-orchestrator.ts"]
+    markdowngeneratorsts["markdown-generators.ts"]
+    artifactorchestratorts -->|generateRepositoryBrainMd| markdowngeneratorsts
 ```
 
 ---
@@ -730,17 +711,15 @@ graph LR
 
 ## §10 — DEPENDENCY INTELLIGENCE
 
-- **Modules**: 123 | **Edges**: 171 | **Circular**: 0
+- **Modules**: 89 | **Edges**: 82 | **Circular**: 0
 
 ### Single Points of Failure
-- `packages/core/src/index.ts` — 37 modules depend on this
-- `packages/context-engine/src/index.ts` — 5 modules depend on this
+- `packages/core/src/index.ts` — 29 modules depend on this
 - `packages/recovery-engine/src/index.ts` — 5 modules depend on this
-- `packages/hallucination-detector/src/index.ts` — 4 modules depend on this
+- `packages/context-engine/src/index.ts` — 4 modules depend on this
 - `packages/validation-engine/src/index.ts` — 3 modules depend on this
-- `packages/context-engine/src/parser/dependency-parser.ts` — 3 modules depend on this
+- `packages/hallucination-detector/src/index.ts` — 3 modules depend on this
 - `packages/model-adapters/src/base/adapter.ts` — 3 modules depend on this
-- `packages/recovery-engine/src/snapshot/creator.ts` — 3 modules depend on this
 
 ### External Dependencies (35)
 - **path** — 46 file(s)
@@ -763,26 +742,23 @@ graph LR
 ```mermaid
 graph LR
     N0["index.ts"]
-    N1["ast-parser.ts"]
+    N1["index.ts"]
     N2["index.ts"]
     N3["index.ts"]
     N4["index.ts"]
-    N5["index.ts"]
-    N6["index.ts"]
-    N7["dependency-parser.ts"]
-    N8["test-intelligence.ts"]
-    N9["adapter.ts"]
-    N10["creator.ts"]
+    N5["adapter.ts"]
+    N6["dependency-parser.ts"]
+    N7["creator.ts"]
+    N8["schema.ts"]
+    N9["websocket.ts"]
+    N10["agents.ts"]
     N11["index.ts"]
+    N10 --> N11
     N11 --> N0
-    N1 --> N0
-    N7 --> N0
-    N7 --> N1
+    N6 --> N0
     N4 --> N0
-    N4 --> N2
     N5 --> N0
-    N9 --> N0
-    N10 --> N0
+    N7 --> N0
 ```
 
 ---
@@ -900,12 +876,11 @@ _No database models or repositories detected._
 
 | File | Dependents | Tests | Risk | Score |
 |------|-----------|-------|------|-------|
-| `packages/core/src/index.ts` | 37 | 8 | critical | 100/100 |
+| `packages/core/src/index.ts` | 29 | 8 | critical | 97/100 |
 | `apps/api/src/server.ts` | 0 | 0 | critical | 30/100 |
 | `apps/cli/src/index.ts` | 0 | 0 | critical | 30/100 |
 | `packages/recovery-engine/src/index.ts` | 5 | 0 | critical | 30/100 |
 | `packages/token-optimizer/src/index.ts` | 0 | 0 | critical | 30/100 |
-| `packages/context-engine/src/index.ts` | 5 | 1 | critical | 25/100 |
 | `packages/validation-engine/src/index.ts` | 3 | 0 | high | 24/100 |
 | `apps/api/src/db/schema.ts` | 1 | 0 | high | 23/100 |
 | `apps/api/src/plugins/websocket.ts` | 1 | 0 | high | 23/100 |
@@ -920,9 +895,10 @@ _No database models or repositories detected._
 | `apps/api/src/routes/snapshots.ts` | 1 | 0 | high | 23/100 |
 | `apps/api/src/routes/system.ts` | 1 | 0 | high | 23/100 |
 | `apps/api/src/routes/validation.ts` | 1 | 0 | high | 23/100 |
+| `apps/cli/src/commands/context.ts` | 1 | 0 | high | 23/100 |
 
 ### Highest Impact Files
-- **`packages/core/src/index.ts`** — 37 dependent(s), 8 test(s)
+- **`packages/core/src/index.ts`** — 29 dependent(s), 8 test(s)
   - Affects features: Core
 - **`apps/api/src/server.ts`** — 0 dependent(s), 0 test(s)
   - Affects features: Api
@@ -937,14 +913,14 @@ _No database models or repositories detected._
 
 ## §16 — RISK INTELLIGENCE
 
-**Overall Risk Score: 71/100** [HIGH]
+**Overall Risk Score: 65/100** [HIGH]
 
 ### Risk Calculation
 | Factor | Count | Penalty |
 |--------|-------|---------|
 | Untested Critical Paths | 24 | +25 |
 | TODO/FIXME Count | 25 | +15 |
-| High Coupling Files | 4 | +12 |
+| High Coupling Files | 2 | +6 |
 | Complex Files (>15 funcs) | 3 | +9 |
 | Missing Observability | 35 | +10 |
 
@@ -953,9 +929,9 @@ _No database models or repositories detected._
 | Critical Files | 35 |
 | Untested Critical Paths | 24 |
 | Circular Dependencies | 0 |
-| High Coupling Files | 4 |
+| High Coupling Files | 2 |
 | Complex Files (>15 funcs) | 3 |
-| SPOFs | 8 |
+| SPOFs | 6 |
 
 ---
 
@@ -1014,19 +990,19 @@ _No database models or repositories detected._
 
 - [medium] **todo** in `ai-pos-dropin.js:307` — / FIXME / HACK Detection ───────────────────────
 - [medium] **todo** in `ai-pos-dropin.js:310` — |FIXME|HACK|DEPRECATED|XXX|BUG)\b[:\s]*(.*)/i);
-- [medium] **todo** in `ai-pos-dropin.js:857` — ' || t.type === 'FIXME').length;
-- [medium] **todo** in `ai-pos-dropin.js:1001` — /FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f
-- [medium] **todo** in `ai-pos-dropin.js:1122` — of f.todos) {
-- [medium] **todo** in `ai-pos-dropin.js:1124` — .type.toLowerCase(),
-- [medium] **todo** in `ai-pos-dropin.js:1126` — .line,
-- [medium] **todo** in `ai-pos-dropin.js:1127` — .text,
-- [medium] **todo** in `ai-pos-dropin.js:1128` — .type === 'FIXME' || todo.type === 'BUG' ? 'high' : todo.type === 'HACK' ? 'high' : 'medium',
-- [medium] **todo** in `ai-pos-dropin.js:1435` — ' || t.type === 'FIXME'));
-- [medium] **todo** in `ai-pos-dropin.js:1437` — /FIXME markers` });
-- [medium] **todo** in `ai-pos-dropin.js:1438` — /FIXME` });
-- [medium] **todo** in `ai-pos-dropin.js:2336` — placeholders, or incomplete implementations');
-- [medium] **todo** in `ai-pos-dropin.js:2400` — ' || t.type === 'FIXME'));
-- [medium] **todo** in `ai-pos-dropin.js:2755` — placeholders, or incomplete implementations
+- [medium] **todo** in `ai-pos-dropin.js:860` — ' || t.type === 'FIXME').length;
+- [medium] **todo** in `ai-pos-dropin.js:1004` — /FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f
+- [medium] **todo** in `ai-pos-dropin.js:1125` — of f.todos) {
+- [medium] **todo** in `ai-pos-dropin.js:1127` — .type.toLowerCase(),
+- [medium] **todo** in `ai-pos-dropin.js:1129` — .line,
+- [medium] **todo** in `ai-pos-dropin.js:1130` — .text,
+- [medium] **todo** in `ai-pos-dropin.js:1131` — .type === 'FIXME' || todo.type === 'BUG' ? 'high' : todo.type === 'HACK' ? 'high' : 'medium',
+- [medium] **todo** in `ai-pos-dropin.js:1438` — ' || t.type === 'FIXME'));
+- [medium] **todo** in `ai-pos-dropin.js:1440` — /FIXME markers` });
+- [medium] **todo** in `ai-pos-dropin.js:1441` — /FIXME` });
+- [medium] **todo** in `ai-pos-dropin.js:2339` — placeholders, or incomplete implementations');
+- [medium] **todo** in `ai-pos-dropin.js:2403` — ' || t.type === 'FIXME'));
+- [medium] **todo** in `ai-pos-dropin.js:2758` — placeholders, or incomplete implementations
 - [high] **hack** in `apps/api/src/db/connection.ts:16` — to parse safely
 - [medium] **todo** in `apps/cli/src/commands/init.ts:70` — ', pattern: 'TODO', description: 'Disallow TODO comments in production code' },
 - [high] **fixme** in `apps/cli/src/commands/init.ts:71` — ', pattern: 'FIXME', description: 'Disallow FIXME comments' },
@@ -1055,7 +1031,7 @@ _No database models or repositories detected._
 _No decisions logged yet. Append here after major changes._
 
 ### Evolution History
-- **2026-05-30T08:22:23.305Z**: Brain generated. 123 files, 371 functions, 90% confidence.
+- **2026-05-30T08:27:28.848Z**: Brain generated. 123 files, 371 functions, 90% confidence.
 
 ---
 
@@ -1134,10 +1110,10 @@ _No decisions logged yet. Append here after major changes._
 ## §24 — TOKEN COMPRESSION ENGINE
 
 **L0 — Repository Snapshot** (~50 tokens)
-app: TypeScript React app, Monorepo, 123 files, 18,401 LOC, Analytics.
+app: TypeScript React app, Monorepo, 123 files, 18,406 LOC, Analytics.
 
 **L1 — Architecture Summary** (~150 tokens)
-Monorepo with 2 layers. 93 endpoints, 61 classes, Custom Auth/JWT auth. Risk: 71/100.
+Monorepo with 2 layers. 93 endpoints, 61 classes, Custom Auth/JWT auth. Risk: 65/100.
 
 **L2 — Runtime Summary** (~200 tokens)
 Startup: Load Configuration → Register Routes → Start Server. Request: Run Middleware Chain → Authenticate & Authorize → Validate Input → Execute Business Logic → Persist / Fetch Data → Send Response.
@@ -1176,7 +1152,7 @@ Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Eng
 | Check | Weight | Score | Detail |
 |-------|--------|-------|--------|
 | Import Resolution | 25 | 86% | 171/199 resolved |
-| Dependency Graph | 20 | 100% | 171 edges across 123 modules |
+| Dependency Graph | 20 | 100% | 82 edges across 89 modules |
 | Feature Test Coverage | 15 | 67% | 12/18 features have tests |
 | Architecture Intelligence | 10 | 100% | Cross-module dependencies mapped |
 | No Circular Dependencies | 10 | 100% | 0 cycle(s) |
@@ -1210,7 +1186,7 @@ Dashboard [implemented/14%], Cli [partial/0%], Api [implemented/0%], Context Eng
 | Function intelligence | YES (50 functions) |
 | Mermaid diagrams | YES |
 | Blast radius | YES |
-| Risk scoring | YES (71/100) |
+| Risk scoring | YES (65/100) |
 | Token optimization (L0-L6) | YES |
 
 ---
@@ -1472,5 +1448,5 @@ All Mermaid diagrams are embedded in their respective sections:
 
 ---
 
-*Generated by PGOS RIOS v4.0.0 | 2026-05-30T08:22:23.305Z | DO NOT EDIT MANUALLY*
+*Generated by PGOS RIOS v4.0.0 | 2026-05-30T08:27:28.848Z | DO NOT EDIT MANUALLY*
 *Regenerate: ./ai-pos-dropin.ps1 (Windows) or ./ai-pos-dropin.sh (Linux/macOS)*

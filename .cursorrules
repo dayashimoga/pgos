@@ -5,7 +5,7 @@
 - **Name**: app
 - **Stack**: TypeScript / React
 - **Architecture**: Monorepo
-- **Scale**: 123 files | 18,401 LOC
+- **Scale**: 123 files | 18,406 LOC
 - **Readiness Score**: 65% [NEEDS REFRACTORING]
 - **Health Coverage**: 38% Test Density
 - **Confidence**: 90%

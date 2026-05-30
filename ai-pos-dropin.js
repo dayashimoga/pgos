@@ -411,9 +411,10 @@ function generateSemanticDesc(f) {
 // ── 1. Function Call Graph ─────────────────────────────────
 
 function buildFunctionCallGraph(files) {
+  const prodFiles = files.filter(f => f.isProduction);
   // Build export registry: funcName → [filePaths]
   const exportRegistry = {};
-  for (const f of files) {
+  for (const f of prodFiles) {
     for (const fn of f.functions) {
       if (fn.isExported) {
         if (!exportRegistry[fn.name]) exportRegistry[fn.name] = [];
@@ -424,7 +425,7 @@ function buildFunctionCallGraph(files) {
 
   // Build per-file import map: file → { localName → sourceFile }
   const importMaps = {};
-  for (const f of files) {
+  for (const f of prodFiles) {
     importMaps[f.path] = {};
     for (const imp of f.imports) {
       if (!imp.isExternal) {
@@ -438,7 +439,7 @@ function buildFunctionCallGraph(files) {
   // Build edges: scan each file for calls to known functions
   const edges = [];
   const edgeSet = new Set();
-  for (const f of files) {
+  for (const f of prodFiles) {
     const funcNames = new Set(f.functions.map(fn => fn.name));
     const allKnownFuncs = new Set([...Object.keys(exportRegistry), ...funcNames]);
 
@@ -446,8 +447,6 @@ function buildFunctionCallGraph(files) {
       // Simple heuristic: find function calls in the vicinity of this function
       for (const otherFn of f.functions) {
         if (otherFn.name === fn.name) continue;
-        // Check if fn.name appears as a call within the file context
-        // We do a simpler approach: just check if any exported function from imports is called
       }
     }
 
@@ -456,7 +455,7 @@ function buildFunctionCallGraph(files) {
       if (imp.isExternal) continue;
       const resolved = resolveImportPath(f.path, imp.source, files);
       if (!resolved) continue;
-      const targetFile = files.find(tf => tf.path === resolved);
+      const targetFile = prodFiles.find(tf => tf.path === resolved);
       if (!targetFile) continue;
 
       // Find which exported functions from the target are likely called
@@ -471,7 +470,7 @@ function buildFunctionCallGraph(files) {
   }
 
   // Build key call chains (find entry points and trace forward)
-  const chains = buildCallChains(files, edges);
+  const chains = buildCallChains(prodFiles, edges);
 
   return { edges, chains };
 }
@@ -553,13 +552,14 @@ function traceChain(file, edges, visited, depth) {
 // ── 2. Dependency Graph + Circular Detection ───────────────
 
 function buildDependencyGraph(files) {
+  const prodFiles = files.filter(f => f.isProduction);
   const nodes = new Set();
   const edgeList = [];
   const adjList = {};
   const inDegree = {};
   const outDegree = {};
 
-  for (const f of files) {
+  for (const f of prodFiles) {
     nodes.add(f.path);
     if (!adjList[f.path]) adjList[f.path] = [];
     if (!inDegree[f.path]) inDegree[f.path] = 0;
@@ -569,11 +569,14 @@ function buildDependencyGraph(files) {
       if (imp.isExternal) continue;
       const resolved = resolveImportPath(f.path, imp.source, files);
       if (resolved) {
-        edgeList.push({ from: f.path, to: resolved });
-        adjList[f.path].push(resolved);
-        if (!adjList[resolved]) adjList[resolved] = [];
-        inDegree[resolved] = (inDegree[resolved] || 0) + 1;
-        outDegree[f.path]++;
+        const isProdTarget = prodFiles.some(pf => pf.path === resolved);
+        if (isProdTarget) {
+          edgeList.push({ from: f.path, to: resolved });
+          adjList[f.path].push(resolved);
+          if (!adjList[resolved]) adjList[resolved] = [];
+          inDegree[resolved] = (inDegree[resolved] || 0) + 1;
+          outDegree[f.path]++;
+        }
       }
     }
   }
