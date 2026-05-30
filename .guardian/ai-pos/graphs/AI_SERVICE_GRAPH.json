@@ -1,0 +1,23 @@
+{
+  "boundaries": [
+    {
+      "name": "Production Logic",
+      "type": "package",
+      "components": [
+        "ai-pos-dropin.js",
+        "apps/api/src/db/connection.ts",
+        "apps/api/src/db/schema.ts",
+        "apps/api/src/plugins/websocket.ts",
+        "apps/api/src/routes/agents.ts"
+      ]
+    }
+  ],
+  "communication": [
+    {
+      "from": "Client",
+      "to": "Entry points",
+      "protocol": "HTTP/REST",
+      "description": "Stateless query dispatching"
+    }
+  ]
+}

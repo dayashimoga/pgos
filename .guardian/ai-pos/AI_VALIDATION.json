@@ -1,0 +1,22 @@
+{
+  "confidenceScore": 10,
+  "staleStatus": [],
+  "verificationReport": [
+    {
+      "check": "Import Resolution",
+      "passed": true,
+      "message": "All imports verified locally.",
+      "severity": "info"
+    },
+    {
+      "check": "Completeness check",
+      "passed": false,
+      "message": "Completed with 10% confidence.",
+      "severity": "warning"
+    }
+  ],
+  "timestamp": "2026-05-28T08:42:08.463Z",
+  "generationDuration": 2043,
+  "artifactCount": 28,
+  "warnings": []
+}

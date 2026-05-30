@@ -1,19 +1,19 @@
 {
-  "version": "3.0.0",
-  "generatedAt": "2026-05-30T07:44:56.203Z",
-  "duration": 952,
+  "version": "4.0.0",
+  "generatedAt": "2026-05-30T08:12:52.843Z",
+  "duration": 783,
   "project": {
     "name": "app",
-    "files": 120,
-    "loc": 17258,
+    "files": 123,
+    "loc": 17891,
     "language": "TypeScript",
     "framework": "React",
     "architecture": "Monorepo"
   },
-  "risk": 23,
-  "confidence": 10,
+  "risk": 71,
+  "confidence": 90,
   "endpoints": 93,
-  "features": 24,
+  "features": 18,
   "entities": 167,
   "functions": 50,
   "knowledgeGraphNodes": 100

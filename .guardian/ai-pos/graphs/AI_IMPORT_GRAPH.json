@@ -1,0 +1,427 @@
+{
+  "nodes": [
+    {
+      "name": "SubAgent",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/agent-runtime/src/index.ts"
+    },
+    {
+      "name": "Orchestrator",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/agent-runtime/src/index.ts"
+    },
+    {
+      "name": "AgentMemoryCache",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/agent-runtime/src/index.ts"
+    },
+    {
+      "name": "UserService",
+      "type": "entity",
+      "properties": [
+        "bootstrap",
+        "createApp",
+        "userRoutes",
+        "getUsers",
+        "createUser",
+        "updateUser",
+        "deleteUser",
+        "getUserService",
+        "authMiddleware",
+        "authenticate",
+        "expect"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/analyzers.test.ts"
+    },
+    {
+      "name": "UserRepository",
+      "type": "entity",
+      "properties": [
+        "bootstrap",
+        "createApp",
+        "userRoutes",
+        "getUsers",
+        "createUser",
+        "updateUser",
+        "deleteUser",
+        "getUserService",
+        "authMiddleware",
+        "authenticate",
+        "expect"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/analyzers.test.ts"
+    },
+    {
+      "name": "UserAggregate",
+      "type": "entity",
+      "properties": [
+        "bootstrap",
+        "createApp",
+        "userRoutes",
+        "getUsers",
+        "createUser",
+        "updateUser",
+        "deleteUser",
+        "getUserService",
+        "authMiddleware",
+        "authenticate",
+        "expect"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/analyzers.test.ts"
+    },
+    {
+      "name": "PostEntity",
+      "type": "entity",
+      "properties": [
+        "bootstrap",
+        "createApp",
+        "userRoutes",
+        "getUsers",
+        "createUser",
+        "updateUser",
+        "deleteUser",
+        "getUserService",
+        "authMiddleware",
+        "authenticate",
+        "expect"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/analyzers.test.ts"
+    },
+    {
+      "name": "BaseService",
+      "type": "entity",
+      "properties": [
+        "calculateMetrics",
+        "getDb"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/context.test.ts"
+    },
+    {
+      "name": "MetricsService",
+      "type": "entity",
+      "properties": [
+        "calculateMetrics",
+        "getDb"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/context.test.ts"
+    },
+    {
+      "name": "UserService",
+      "type": "entity",
+      "properties": [
+        "run",
+        "makeMinimalIntel"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/validator.test.ts"
+    },
+    {
+      "name": "UserRepository",
+      "type": "entity",
+      "properties": [
+        "run",
+        "makeMinimalIntel"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/validator.test.ts"
+    },
+    {
+      "name": "BrokenModule",
+      "type": "entity",
+      "properties": [
+        "run",
+        "makeMinimalIntel"
+      ],
+      "sourceFile": "packages/context-engine/src/__tests__/validator.test.ts"
+    },
+    {
+      "name": "of",
+      "type": "entity",
+      "properties": [
+        "generateContextMd",
+        "generateQuickMd",
+        "generateArchitectureMd",
+        "generateRuntimeMd",
+        "renderFlow",
+        "generateFeaturesMd",
+        "generateDependenciesMd",
+        "generateRisksMd",
+        "generateTestsMd",
+        "generateSecurityMd",
+        "generatePerformanceMd",
+        "generateObservabilityMd",
+        "generateDecisionsMd",
+        "generateActiveStateMd",
+        "generateDomainMd",
+        "generateMemoryMd",
+        "generateValidationMd",
+        "generateNavigationMd",
+        "generateRepositoryBrainMd"
+      ],
+      "sourceFile": "packages/context-engine/src/generators/markdown-generators.ts"
+    },
+    {
+      "name": "GuardianError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "ProjectNotFoundError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "SnapshotNotFoundError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "ValidationError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "ModelConnectionError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "ContextCompilationError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "RecoveryError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "PolicyViolationError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "ArchitectureViolationError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "HallucinationDetectedError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "AuthenticationError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "AuthorizationError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "RateLimitError",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/core/src/errors/index.ts"
+    },
+    {
+      "name": "TechnicalWriter",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "DiagramGenerator",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "RequirementEngine",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "KnowledgeBase",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "DocValidator",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "SelfImprovementEngine",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "FeatureDiscoveryEngine",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "DocOrchestrator",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/index.ts"
+    },
+    {
+      "name": "ReportGenerator",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/reports/report-generator.ts"
+    },
+    {
+      "name": "SavingsCalculator",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/doc-engine/src/reports/savings-calculator.ts"
+    },
+    {
+      "name": "MemoryStore",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/memory-engine/src/index.ts"
+    },
+    {
+      "name": "AnthropicAdapter",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/model-adapters/src/anthropic/adapter.ts"
+    },
+    {
+      "name": "for",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/model-adapters/src/base/adapter.ts"
+    },
+    {
+      "name": "for",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/model-adapters/src/base/adapter.ts"
+    },
+    {
+      "name": "BaseAdapter",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/model-adapters/src/base/adapter.ts"
+    },
+    {
+      "name": "OllamaAdapter",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/model-adapters/src/ollama/adapter.ts"
+    },
+    {
+      "name": "OpenAIAdapter",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/model-adapters/src/openai/adapter.ts"
+    },
+    {
+      "name": "MetricsCollector",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/observability/src/index.ts"
+    },
+    {
+      "name": "RuleEngine",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/policy-engine/src/index.ts"
+    },
+    {
+      "name": "Enforcer",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/policy-engine/src/index.ts"
+    },
+    {
+      "name": "RBACManager",
+      "type": "entity",
+      "properties": [],
+      "sourceFile": "packages/policy-engine/src/index.ts"
+    },
+    {
+      "name": "MathUtils",
+      "type": "entity",
+      "properties": [
+        "add",
+        "fetchUser",
+        "doThings"
+      ],
+      "sourceFile": "packages/test-engine/src/__tests__/test-engine.test.ts"
+    },
+    {
+      "name": "methods",
+      "type": "entity",
+      "properties": [
+        "add",
+        "fetchUser",
+        "doThings"
+      ],
+      "sourceFile": "packages/test-engine/src/__tests__/test-engine.test.ts"
+    },
+    {
+      "name": "IntentParser",
+      "type": "entity",
+      "properties": [
+        "generateSampleArgs",
+        "generateEdgeCaseArgs"
+      ],
+      "sourceFile": "packages/test-engine/src/index.ts"
+    },
+    {
+      "name": "TestGenerator",
+      "type": "entity",
+      "properties": [
+        "generateSampleArgs",
+        "generateEdgeCaseArgs"
+      ],
+      "sourceFile": "packages/test-engine/src/index.ts"
+    },
+    {
+      "name": "CoverageAnalyzer",
+      "type": "entity",
+      "properties": [
+        "generateSampleArgs",
+        "generateEdgeCaseArgs"
+      ],
+      "sourceFile": "packages/test-engine/src/index.ts"
+    },
+    {
+      "name": "AuthService",
+      "type": "entity",
+      "properties": [
+        "doSomething",
+        "add",
+        "payment"
+      ],
+      "sourceFile": "packages/validation-engine/src/__tests__/validation.test.ts"
+    }
+  ],
+  "edges": []
+}

@@ -63,8 +63,6 @@ coverage/
 html-report/
 
 # ── Local Project State & Leftovers ──────────────────────────────────────────
-.guardian/
-**/.guardian/
 apps/cli/--root-path/
 *plan.md
 *_plan.md

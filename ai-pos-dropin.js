@@ -17,14 +17,19 @@ import { join, resolve, relative, basename, dirname, extname } from 'path';
 // CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════
 
-const VERSION = '3.0.0';
+const VERSION = '4.0.0';
 const MAX_FILES = 2000;
 const EXCLUDE_DIRS = new Set([
   'node_modules', '.git', 'dist', 'build', 'out', 'coverage', '.turbo',
   '.next', '.nuxt', '.guardian', '.idea', '.vscode', '__pycache__',
   '.mypy_cache', '.pytest_cache', 'vendor', 'target', 'bin', 'obj',
   '.svn', '.hg', 'bower_components', '.cache', '.parcel-cache',
+  '.pnpm-store',
 ]);
+
+// Workspace package scopes detected at runtime
+let WORKSPACE_SCOPES = new Set();
+let WORKSPACE_PKG_MAP = {}; // Maps '@scope/name' → 'packages/name/src/index.ts'
 const CODE_EXTS = new Set([
   '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
   '.py', '.go', '.rs', '.java', '.cs', '.rb', '.php',
@@ -61,6 +66,52 @@ const FRAMEWORK_PATTERNS = [
   { imports: ['spring', 'org.springframework'], name: 'Spring', arch: 'layered' },
   { imports: ['actix', 'rocket', 'axum'], name: 'Rust Web', arch: 'layered' },
 ];
+
+// ═══════════════════════════════════════════════════════════════════════
+// WORKSPACE PACKAGE DETECTOR
+// ═══════════════════════════════════════════════════════════════════════
+
+async function detectWorkspacePackages(rootPath) {
+  const scopes = new Set();
+  const pkgMap = {};
+
+  // Scan packages/ and apps/ directories for package.json files
+  const workspaceDirs = ['packages', 'apps'];
+  for (const wsDir of workspaceDirs) {
+    try {
+      const entries = await fs.readdir(join(rootPath, wsDir), { withFileTypes: true });
+      for (const e of entries) {
+        if (!e.isDirectory()) continue;
+        try {
+          const pkgJsonPath = join(rootPath, wsDir, e.name, 'package.json');
+          const pkgJson = JSON.parse(await fs.readFile(pkgJsonPath, 'utf-8'));
+          if (pkgJson.name) {
+            const scope = pkgJson.name.startsWith('@') ? pkgJson.name.split('/')[0] : null;
+            if (scope) scopes.add(scope);
+            // Map package name to its entry point
+            const srcIndex = [
+              `${wsDir}/${e.name}/src/index.ts`,
+              `${wsDir}/${e.name}/src/index.js`,
+              `${wsDir}/${e.name}/index.ts`,
+              `${wsDir}/${e.name}/index.js`,
+            ];
+            pkgMap[pkgJson.name] = { dir: `${wsDir}/${e.name}`, candidates: srcIndex };
+          }
+        } catch { /* no package.json */ }
+      }
+    } catch { /* no workspace dir */ }
+  }
+
+  WORKSPACE_SCOPES = scopes;
+  WORKSPACE_PKG_MAP = pkgMap;
+  return { scopes: [...scopes], packages: Object.keys(pkgMap) };
+}
+
+function isWorkspacePackage(importSource) {
+  if (!importSource.startsWith('@')) return false;
+  const scope = importSource.split('/')[0];
+  return WORKSPACE_SCOPES.has(scope);
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // DIRECTORY SCANNER
@@ -139,7 +190,7 @@ async function analyzeFile(filePath, rootPath) {
     while ((m = rx.exec(content))) {
       const src = m[1] || m[2];
       if (src) {
-        const isExt = !src.startsWith('.') && !src.startsWith('/') && !src.startsWith('@/');
+        const isExt = !src.startsWith('.') && !src.startsWith('/') && !src.startsWith('@/') && !isWorkspacePackage(src);
         result.rawImports.push(src);
         result.imports.push({ name: src, source: src, isExternal: isExt, line: content.substring(0, m.index).split('\n').length });
       }
@@ -383,13 +434,52 @@ function buildFunctionCallGraph(files) {
 }
 
 function resolveImportPath(currentFile, importSource, files) {
+  // Handle workspace package imports (@pgos/core → packages/core/src/index.ts)
+  if (isWorkspacePackage(importSource)) {
+    return resolveWorkspaceImport(importSource, files);
+  }
+
   if (!importSource.startsWith('.')) return null;
   const dir = dirname(currentFile);
-  let resolved = join(dir, importSource).replace(/\\/g, '/');
-  // Try with extensions
-  const candidates = [resolved, resolved + '.ts', resolved + '.js', resolved + '.tsx', resolved + '.jsx', resolved + '/index.ts', resolved + '/index.js'];
+  let base = join(dir, importSource).replace(/\\/g, '/');
+
+  // Strip .js/.jsx/.mjs/.cjs extension before trying .ts candidates
+  // TypeScript projects import with .js extension but actual files are .ts
+  base = base.replace(/\.(js|jsx|mjs|cjs)$/, '');
+
+  const candidates = [
+    base,
+    base + '.ts', base + '.tsx', base + '.js', base + '.jsx', base + '.mjs',
+    base + '/index.ts', base + '/index.js', base + '/index.tsx',
+  ];
   for (const c of candidates) {
     if (files.some(f => f.path === c)) return c;
+  }
+  return null;
+}
+
+function resolveWorkspaceImport(importSource, files) {
+  // Look up in the detected workspace package map
+  const pkgInfo = WORKSPACE_PKG_MAP[importSource];
+  if (pkgInfo) {
+    for (const c of pkgInfo.candidates) {
+      if (files.some(f => f.path === c)) return c;
+    }
+  }
+  // Fallback: try to infer from import path
+  // @scope/name → packages/name/src/index.ts
+  const match = importSource.match(/^@[\w-]+\/([\w-]+)/);
+  if (match) {
+    const pkgName = match[1];
+    const fallbackCandidates = [
+      `packages/${pkgName}/src/index.ts`,
+      `packages/${pkgName}/src/index.js`,
+      `apps/${pkgName}/src/index.ts`,
+      `apps/${pkgName}/src/index.js`,
+    ];
+    for (const c of fallbackCandidates) {
+      if (files.some(f => f.path === c)) return c;
+    }
   }
   return null;
 }
@@ -438,6 +528,7 @@ function buildDependencyGraph(files) {
       if (resolved) {
         edgeList.push({ from: f.path, to: resolved });
         adjList[f.path].push(resolved);
+        if (!adjList[resolved]) adjList[resolved] = [];
         inDegree[resolved] = (inDegree[resolved] || 0) + 1;
         outDegree[f.path]++;
       }
@@ -448,7 +539,6 @@ function buildDependencyGraph(files) {
   const circular = [];
   const WHITE = 0, GRAY = 1, BLACK = 2;
   const color = {};
-  const parent = {};
   for (const n of nodes) color[n] = WHITE;
 
   function dfs(u, path) {
@@ -456,7 +546,6 @@ function buildDependencyGraph(files) {
     path.push(u);
     for (const v of (adjList[u] || [])) {
       if (color[v] === GRAY) {
-        // Back edge found — circular dependency
         const cycleStart = path.indexOf(v);
         if (cycleStart >= 0) circular.push(path.slice(cycleStart).concat(v));
       } else if (color[v] === WHITE) {
@@ -473,6 +562,8 @@ function buildDependencyGraph(files) {
     for (const imp of f.imports) {
       if (imp.isExternal) {
         const pkg = imp.source.startsWith('@') ? imp.source.split('/').slice(0, 2).join('/') : imp.source.split('/')[0];
+        if (!pkg || pkg.length <= 1 || !/^[a-zA-Z@][\w\-./]*$/.test(pkg)) continue;
+        if (['type', 'from', 'as', 'of', 'in', 'for', 'let', 'var', 'const', 'return', 'import', 'export'].includes(pkg)) continue;
         if (!external[pkg]) external[pkg] = { name: pkg, usedBy: [] };
         if (!external[pkg].usedBy.includes(f.path)) external[pkg].usedBy.push(f.path);
       }
@@ -491,7 +582,7 @@ function buildDependencyGraph(files) {
 
 // ── 3. Architecture Detector ───────────────────────────────
 
-function detectArchitecture(files, rootPath) {
+async function detectArchitecture(files, rootPath) {
   const allPaths = files.map(f => f.path.toLowerCase());
   const allImports = files.flatMap(f => f.rawImports);
   const evidence = [];
@@ -506,39 +597,52 @@ function detectArchitecture(files, rootPath) {
   const hasRepositories = allPaths.some(p => /\/repositor|\/dao\/|\/data\//.test(p));
   const hasPorts = allPaths.some(p => /\/ports?\//.test(p));
   const hasAdapters = allPaths.some(p => /\/adapters?\//.test(p));
-  const hasPackages = allPaths.some(p => /^packages\//.test(p)) || allPaths.some(p => /^apps\//.test(p));
   const hasCommands = allPaths.some(p => /\/commands?\//.test(p));
   const hasQueries = allPaths.some(p => /\/queries?\//.test(p));
   const hasEvents = allPaths.some(p => /\/events?\//.test(p)) || files.some(f => f.events.emits.length > 0);
   const hasPlugins = allPaths.some(p => /\/plugins?\/|\/extensions?\//.test(p));
 
-  if (hasDomain && hasInfra) { scores['DDD'] = (scores['DDD'] || 0) + 40; evidence.push('Domain + Infrastructure directories detected'); }
-  if (hasPorts && hasAdapters) { scores['Hexagonal'] = (scores['Hexagonal'] || 0) + 50; evidence.push('Ports + Adapters structure found'); }
-  if (hasRoutes && hasServices && hasRepositories) { scores['Layered'] = (scores['Layered'] || 0) + 40; evidence.push('Routes → Services → Repositories pattern'); }
-  if (hasRoutes && hasServices) { scores['Layered'] = (scores['Layered'] || 0) + 25; evidence.push('Routes → Services layer pattern'); }
-  if (hasCommands && hasQueries) { scores['CQRS'] = (scores['CQRS'] || 0) + 45; evidence.push('Commands + Queries separation detected'); }
-  if (hasEvents) { scores['Event-Driven'] = (scores['Event-Driven'] || 0) + 30; evidence.push('Event publishers/subscribers found'); }
-  if (hasPackages) { scores['Monorepo'] = (scores['Monorepo'] || 0) + 35; evidence.push('Multi-package workspace structure'); }
+  // ── Strong monorepo signals ──
+  try { await fs.access(join(rootPath, 'pnpm-workspace.yaml')); scores['Monorepo'] = (scores['Monorepo'] || 0) + 30; evidence.push('pnpm-workspace.yaml found — PNPM workspace'); } catch {}
+  try { await fs.access(join(rootPath, 'turbo.json')); scores['Monorepo'] = (scores['Monorepo'] || 0) + 15; evidence.push('turbo.json found — Turborepo build orchestration'); } catch {}
+  try { await fs.access(join(rootPath, 'lerna.json')); scores['Monorepo'] = (scores['Monorepo'] || 0) + 25; evidence.push('lerna.json found — Lerna workspace'); } catch {}
+
+  // Count actual packages and apps
+  const pkgDirs = new Set();
+  const appDirs = new Set();
+  for (const p of allPaths) {
+    const m1 = p.match(/^packages\/([^\/]+)\//); if (m1) pkgDirs.add(m1[1]);
+    const m2 = p.match(/^apps\/([^\/]+)\//); if (m2) appDirs.add(m2[1]);
+  }
+  if (pkgDirs.size > 0) { scores['Monorepo'] = (scores['Monorepo'] || 0) + Math.min(30, pkgDirs.size * 5); evidence.push(`${pkgDirs.size} packages: ${[...pkgDirs].slice(0, 5).join(', ')}${pkgDirs.size > 5 ? '...' : ''}`); }
+  if (appDirs.size > 0) { scores['Monorepo'] = (scores['Monorepo'] || 0) + Math.min(15, appDirs.size * 5); evidence.push(`${appDirs.size} apps: ${[...appDirs].join(', ')}`); }
+
+  const wsImportCount = files.reduce((s, f) => s + f.imports.filter(i => !i.isExternal && isWorkspacePackage(i.source)).length, 0);
+  if (wsImportCount > 0) { scores['Monorepo'] = (scores['Monorepo'] || 0) + Math.min(15, wsImportCount); evidence.push(`${wsImportCount} cross-package imports`); }
+
+  if (hasDomain && hasInfra) { scores['DDD'] = (scores['DDD'] || 0) + 40; evidence.push('Domain + Infrastructure directories'); }
+  if (hasPorts && hasAdapters) { scores['Hexagonal'] = (scores['Hexagonal'] || 0) + 50; evidence.push('Ports + Adapters structure'); }
+  if (hasRoutes && hasServices && hasRepositories) { scores['Layered'] = (scores['Layered'] || 0) + 40; evidence.push('Routes → Services → Repositories'); }
+  if (hasRoutes && hasServices) { scores['Layered'] = (scores['Layered'] || 0) + 25; evidence.push('Routes → Services layer'); }
+  if (hasCommands && hasQueries) { scores['CQRS'] = (scores['CQRS'] || 0) + 45; evidence.push('Commands + Queries separation'); }
+  if (hasEvents) { scores['Event-Driven'] = (scores['Event-Driven'] || 0) + 30; evidence.push('Event publishers/subscribers'); }
   if (hasPlugins) { scores['Plugin'] = (scores['Plugin'] || 0) + 35; evidence.push('Plugin/extension architecture'); }
-  if (hasDomain && hasApplication && hasInfra) { scores['Clean'] = (scores['Clean'] || 0) + 45; evidence.push('Clean Architecture layers (Domain, Application, Infrastructure)'); }
+  if (hasDomain && hasApplication && hasInfra) { scores['Clean'] = (scores['Clean'] || 0) + 45; evidence.push('Clean Architecture layers'); }
 
   // Framework detection
   let framework = 'Plain Application';
   for (const fp of FRAMEWORK_PATTERNS) {
     if (fp.imports.some(imp => allImports.some(ai => ai.startsWith(imp) || ai === imp))) {
-      framework = fp.name;
-      scores[fp.arch] = (scores[fp.arch] || 0) + 20;
-      evidence.push(`${fp.name} framework detected from imports`);
-      break;
+      framework = fp.name; scores[fp.arch] = (scores[fp.arch] || 0) + 20; evidence.push(`${fp.name} framework detected`); break;
     }
   }
 
-  // Determine winner
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   const pattern = sorted[0]?.[0] || 'Layered';
-  const confidence = Math.min(95, sorted[0]?.[1] || 30);
+  const confidence = Math.min(98, sorted[0]?.[1] || 30);
 
-  // Build layer map
+  const confidenceMatrix = sorted.map(([name, score]) => ({ pattern: name, confidence: Math.min(98, score) }));
+
   const layers = [];
   if (hasRoutes || allPaths.some(p => /\/api\//.test(p))) layers.push({ name: 'API / Entry Points', dirs: findDirs(allPaths, ['routes', 'controllers', 'api', 'handlers', 'endpoints']), purpose: 'HTTP request handling and routing' });
   if (hasServices) layers.push({ name: 'Services / Business Logic', dirs: findDirs(allPaths, ['services', 'usecases', 'application', 'interactors']), purpose: 'Core business operations and orchestration' });
@@ -547,7 +651,7 @@ function detectArchitecture(files, rootPath) {
   if (hasInfra) layers.push({ name: 'Infrastructure', dirs: findDirs(allPaths, ['infrastructure', 'infra', 'external']), purpose: 'External service adapters and infrastructure concerns' });
   if (layers.length === 0) layers.push({ name: 'Application', dirs: ['src'], purpose: 'Main application code' });
 
-  return { pattern, confidence, evidence, framework, layers };
+  return { pattern, confidence, evidence, framework, layers, confidenceMatrix, packageCount: pkgDirs.size, appCount: appDirs.size };
 }
 
 function findDirs(paths, keywords) {
@@ -613,90 +717,120 @@ function buildExecutionFlows(files) {
   return { startup, request, shutdown, recovery };
 }
 
-// ── 5. Feature Matrix (Semantic — AIRB v3) ─────────────────
+// ── 5. Feature Matrix (Semantic — AIRB v4) ─────────────────
 
 function buildFeatureMatrix(files) {
   const features = [];
-  // Strategy: infer real features from route groups, service clusters, domain entities
-  // NEVER treat raw files/directories as features
+  const coveredFiles = new Set();
 
-  // 1. Route-group based features: group endpoints by their first path segment
-  const routeGroups = {};
+  // 1. Package-level features (most reliable for monorepos)
+  const packageGroups = {};
   for (const f of files) {
-    for (const r of f.routes) {
-      const segs = r.path.split('/').filter(Boolean);
-      const group = segs[1] || segs[0] || 'root';
-      if (!routeGroups[group]) routeGroups[group] = { routes: [], files: new Set(), services: new Set() };
-      routeGroups[group].routes.push(r);
-      routeGroups[group].files.add(f.path);
-      // trace service imports
-      for (const imp of f.imports.filter(i => !i.isExternal && /service|usecase|handler/i.test(i.source))) {
-        const resolved = resolveImportPath(f.path, imp.source, files);
-        if (resolved) routeGroups[group].services.add(resolved);
-      }
+    // Match packages/X/... or apps/X/...
+    const m = f.path.match(/^(packages|apps)\/([^\/]+)\//);
+    if (m) {
+      const key = `${m[1]}/${m[2]}`;
+      if (!packageGroups[key]) packageGroups[key] = { name: m[2], type: m[1], files: [], tests: [], routes: [], functions: 0, todos: 0 };
+      packageGroups[key].files.push(f.path);
+      packageGroups[key].functions += f.functions.length;
+      packageGroups[key].todos += f.todos.filter(t => t.type === 'TODO' || t.type === 'FIXME').length;
+      if (f.hasTests) packageGroups[key].tests.push(f.path);
+      packageGroups[key].routes.push(...f.routes);
+      coveredFiles.add(f.path);
     }
   }
-  for (const [group, data] of Object.entries(routeGroups)) {
-    const allFeatureFiles = [...data.files, ...data.services];
-    const featureFileObjs = files.filter(f => allFeatureFiles.includes(f.path));
-    const testFiles = files.filter(f => f.hasTests && allFeatureFiles.some(ff => f.imports.some(i => { const r = resolveImportPath(f.path, i.source, files); return r && allFeatureFiles.includes(r); })));
-    const stubCount = featureFileObjs.reduce((s, f) => s + f.todos.filter(t => t.type === 'TODO').length, 0);
-    const totalFuncs = featureFileObjs.reduce((s, f) => s + f.functions.length, 0);
+
+  for (const [key, pkg] of Object.entries(packageGroups)) {
+    const pkgFiles = files.filter(f => pkg.files.includes(f.path));
+    const srcFiles = pkgFiles.filter(f => !f.hasTests);
+    const testCount = pkg.tests.length;
+    const srcCount = srcFiles.length;
+    const coverage = srcCount > 0 ? Math.round((testCount / srcCount) * 100) : 100;
+    const isCritical = pkgFiles.some(f => f.zone === 'critical');
+    const uniqueRoutes = deduplicateRoutes(pkg.routes);
+
     features.push({
-      name: group.charAt(0).toUpperCase() + group.slice(1).replace(/[-_]/g, ' '),
-      dir: group,
-      status: stubCount > 2 ? 'partial' : 'implemented',
-      files: [...allFeatureFiles],
-      tests: testFiles.map(f => f.path),
-      routes: data.routes,
-      coverage: totalFuncs > 0 ? Math.round(((totalFuncs - stubCount) / totalFuncs) * 100) : 100,
-      riskLevel: featureFileObjs.some(f => f.zone === 'critical') ? 'high' : 'medium',
-      desc: 'Handles ' + group + ' operations via ' + data.routes.length + ' endpoint(s)',
-      entrypoints: data.routes.map(r => r.method + ' ' + r.path),
-      businessValue: data.routes.length > 2 ? 'high' : 'medium',
+      name: humanizePackageName(pkg.name),
+      dir: key,
+      status: pkg.todos > 3 ? 'partial' : 'implemented',
+      files: pkg.files,
+      tests: pkg.tests,
+      routes: uniqueRoutes,
+      coverage: Math.min(100, coverage),
+      riskLevel: isCritical ? 'high' : srcCount > 10 ? 'medium' : 'low',
+      desc: generateFeatureDesc(pkg, pkgFiles, uniqueRoutes),
+      entrypoints: uniqueRoutes.length > 0
+        ? uniqueRoutes.slice(0, 5).map(r => r.method + ' ' + r.path)
+        : srcFiles.filter(f => f.functions.some(fn => fn.isExported)).slice(0, 3).map(f => f.functions.filter(fn => fn.isExported).map(fn => fn.name + '()').join(', ')),
+      businessValue: uniqueRoutes.length > 2 || pkg.functions > 10 ? 'high' : 'medium',
+      type: pkg.type, // 'packages' or 'apps'
+      functionCount: pkg.functions,
+      testCount,
     });
   }
 
-  // 2. Service-based features: services not covered by route groups
-  const coveredFiles = new Set(features.flatMap(f => f.files));
-  const uncoveredServices = files.filter(f => /service|usecase|handler/i.test(f.path) && !f.hasTests && !coveredFiles.has(f.path));
-  for (const svc of uncoveredServices) {
-    const name = basename(svc.path).replace(/\.(service|usecase|handler)\.\w+$/i, '').replace(/[-_]/g, ' ');
-    const deps = svc.imports.filter(i => !i.isExternal).map(i => resolveImportPath(svc.path, i.source, files)).filter(Boolean);
+  // 2. Root-level features (files not in packages/ or apps/)
+  const rootFiles = files.filter(f => !coveredFiles.has(f.path) && !f.hasTests);
+  if (rootFiles.length > 0) {
+    const rootRoutes = deduplicateRoutes(rootFiles.flatMap(f => f.routes));
     features.push({
-      name: name.charAt(0).toUpperCase() + name.slice(1),
-      dir: dirname(svc.path),
-      status: svc.todos.length > 0 ? 'partial' : 'implemented',
-      files: [svc.path, ...deps],
-      tests: [],
-      routes: [],
-      coverage: 100 - (svc.todos.length * 10),
-      riskLevel: svc.zone === 'critical' ? 'high' : 'medium',
-      desc: svc.semanticDesc,
-      entrypoints: svc.functions.filter(fn => fn.isExported).map(fn => fn.name + '()'),
-      businessValue: 'medium',
-    });
-  }
-
-  // 3. Domain-entity features: standalone domain modules
-  const uncoveredModels = files.filter(f => /model|entity|domain/i.test(f.path) && !f.hasTests && !coveredFiles.has(f.path) && f.classes.length > 0);
-  for (const mod of uncoveredModels.slice(0, 10)) {
-    features.push({
-      name: mod.classes[0]?.name || basename(mod.path).replace(/\.\w+$/, ''),
-      dir: dirname(mod.path),
+      name: 'Root Utilities',
+      dir: '.',
       status: 'implemented',
-      files: [mod.path],
+      files: rootFiles.map(f => f.path),
       tests: [],
-      routes: [],
-      coverage: 100,
+      routes: rootRoutes,
+      coverage: 0,
       riskLevel: 'low',
-      desc: 'Domain entity: ' + (mod.classes[0]?.name || basename(mod.path)),
-      entrypoints: mod.exports,
-      businessValue: 'medium',
+      desc: `Root-level scripts and configuration (${rootFiles.length} files)`,
+      entrypoints: rootFiles.slice(0, 3).map(f => f.path),
+      businessValue: 'low',
+      type: 'root',
+      functionCount: rootFiles.reduce((s, f) => s + f.functions.length, 0),
+      testCount: 0,
     });
   }
+
+  // Sort: apps first, then packages by function count
+  features.sort((a, b) => {
+    if (a.type === 'apps' && b.type !== 'apps') return -1;
+    if (b.type === 'apps' && a.type !== 'apps') return 1;
+    return b.functionCount - a.functionCount;
+  });
 
   return features;
+}
+
+function humanizePackageName(name) {
+  return name
+    .split('-')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
+function generateFeatureDesc(pkg, pkgFiles, routes) {
+  const parts = [];
+  if (pkg.type === 'apps') parts.push(`Application: ${humanizePackageName(pkg.name)}`);
+  else parts.push(`Package: ${humanizePackageName(pkg.name)}`);
+
+  if (routes.length > 0) parts.push(`${routes.length} API endpoint(s)`);
+  parts.push(`${pkg.functions} function(s)`);
+  if (pkg.tests.length > 0) parts.push(`${pkg.tests.length} test file(s)`);
+
+  const exportedFuncs = pkgFiles.flatMap(f => f.functions.filter(fn => fn.isExported)).map(fn => fn.name);
+  if (exportedFuncs.length > 0 && exportedFuncs.length <= 5) parts.push(`exports: ${exportedFuncs.join(', ')}`);
+
+  return parts.join('. ');
+}
+
+function deduplicateRoutes(routes) {
+  const seen = new Set();
+  return routes.filter(r => {
+    const key = `${r.method}:${r.path}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 // ── 6. Blast Radius Analyzer ───────────────────────────────
@@ -737,17 +871,22 @@ function analyzeRisks(files, depGraph, blastRadius) {
   const complexFiles = files.filter(f => f.functions.length > 15).map(f => ({ path: f.path, functions: f.functions.length }));
 
   const totalFiles = files.length || 1;
-  const riskFactors = [
-    criticalFiles.length / totalFiles * 30,
-    untestedCritical.length / totalFiles * 25,
-    depGraph.circular.length * 8,
-    highCoupling.length / totalFiles * 15,
-    Math.min(20, complexFiles.length * 3),
+
+  // Itemized breakdown — every score is traceable
+  const breakdown = [
+    { factor: 'Untested Critical Paths', count: untestedCritical.length, penalty: Math.round(Math.min(25, untestedCritical.length * 2)), evidence: untestedCritical.slice(0, 3) },
+    { factor: 'TODO/FIXME Count', count: files.filter(f => f.todos.length > 0).length, penalty: Math.round(Math.min(15, files.filter(f => f.todos.length > 0).length)), evidence: [] },
+    { factor: 'Circular Dependencies', count: depGraph.circular.length, penalty: Math.round(depGraph.circular.length * 8), evidence: [] },
+    { factor: 'High Coupling Files', count: highCoupling.length, penalty: Math.round(Math.min(15, highCoupling.length * 3)), evidence: highCoupling.slice(0, 3) },
+    { factor: 'Complex Files (>15 funcs)', count: complexFiles.length, penalty: Math.round(Math.min(15, complexFiles.length * 3)), evidence: complexFiles.slice(0, 3).map(f => f.path) },
+    { factor: 'Missing Observability', count: files.filter(f => f.zone === 'critical' && !f.imports.some(i => /log/i.test(i.source))).length, penalty: Math.round(Math.min(10, files.filter(f => f.zone === 'critical' && !f.imports.some(i => /log/i.test(i.source))).length)), evidence: [] },
   ];
-  const overallScore = Math.min(100, Math.round(riskFactors.reduce((s, v) => s + v, 0)));
+
+  const overallScore = Math.min(100, breakdown.reduce((s, b) => s + b.penalty, 0));
 
   return {
     overallScore,
+    breakdown,
     criticalFiles,
     untestedCritical,
     highCoupling,
@@ -891,34 +1030,76 @@ function analyzeTechDebt(files) {
   };
 }
 
-// ── 12. Validation Engine ──────────────────────────────────
+// ── 12. Validation Engine (v4 — Weighted Positive Scoring) ───
 
 function validateIntelligence(files, depGraph, features) {
+  const checks = [];
   const issues = [];
-  let score = 85;
+  let totalWeight = 0;
+  let earnedWeight = 0;
 
-  // Check for broken imports
+  // 1. Import Resolution (weight: 25)
+  const totalInternalImports = files.reduce((s, f) => s + f.imports.filter(i => !i.isExternal).length, 0);
+  let resolvedImports = 0;
   for (const f of files) {
     for (const imp of f.imports) {
       if (!imp.isExternal) {
         const resolved = resolveImportPath(f.path, imp.source, files);
-        if (!resolved) { issues.push({ type: 'broken-import', file: f.path, detail: `Unresolved: ${imp.source}` }); score -= 2; }
+        if (resolved) resolvedImports++;
+        else issues.push({ type: 'broken-import', file: f.path, detail: `Unresolved: ${imp.source}` });
       }
     }
   }
+  const importRate = totalInternalImports > 0 ? resolvedImports / totalInternalImports : 1;
+  checks.push({ name: 'Import Resolution', weight: 25, score: Math.round(importRate * 100), detail: `${resolvedImports}/${totalInternalImports} resolved` });
+  totalWeight += 25; earnedWeight += 25 * importRate;
 
-  // Check for untested features
-  const untestedFeatures = features.filter(f => f.tests.length === 0 && f.status === 'implemented');
-  if (untestedFeatures.length > 0) { issues.push({ type: 'untested-feature', detail: `${untestedFeatures.length} features have no tests` }); score -= untestedFeatures.length * 2; }
+  // 2. Dependency Graph (weight: 20)
+  const edgeRatio = Math.min(1, depGraph.edges.length / Math.max(1, files.length * 0.5));
+  checks.push({ name: 'Dependency Graph', weight: 20, score: Math.round(edgeRatio * 100), detail: `${depGraph.edges.length} edges across ${depGraph.nodes.length} modules` });
+  totalWeight += 20; earnedWeight += 20 * edgeRatio;
 
-  // Circular dependencies
-  if (depGraph.circular.length > 0) { issues.push({ type: 'circular-dep', detail: `${depGraph.circular.length} circular dependency cycle(s)` }); score -= depGraph.circular.length * 3; }
+  // 3. Feature Coverage (weight: 15)
+  const featuresWithTests = features.filter(f => f.tests.length > 0).length;
+  const featureTestRate = features.length > 0 ? featuresWithTests / features.length : 0;
+  const untestedFeatures = features.filter(f => f.tests.length === 0);
+  if (untestedFeatures.length > 0) issues.push({ type: 'untested-feature', detail: `${untestedFeatures.length} features have no test files` });
+  checks.push({ name: 'Feature Test Coverage', weight: 15, score: Math.round(featureTestRate * 100), detail: `${featuresWithTests}/${features.length} features have tests` });
+  totalWeight += 15; earnedWeight += 15 * featureTestRate;
 
-  // Stub detection
+  // 4. Architecture Detection (weight: 10)
+  const archScore = depGraph.edges.length > 0 ? 1 : 0.3;
+  checks.push({ name: 'Architecture Intelligence', weight: 10, score: Math.round(archScore * 100), detail: depGraph.edges.length > 0 ? 'Cross-module dependencies mapped' : 'Limited dependency data' });
+  totalWeight += 10; earnedWeight += 10 * archScore;
+
+  // 5. Circular Dependencies (weight: 10)
+  const circularPenalty = Math.max(0, 1 - depGraph.circular.length * 0.15);
+  if (depGraph.circular.length > 0) issues.push({ type: 'circular-dep', detail: `${depGraph.circular.length} circular dependency cycle(s)` });
+  checks.push({ name: 'No Circular Dependencies', weight: 10, score: Math.round(circularPenalty * 100), detail: `${depGraph.circular.length} cycle(s)` });
+  totalWeight += 10; earnedWeight += 10 * circularPenalty;
+
+  // 6. Code Quality (weight: 10)
   const stubFiles = files.filter(f => f.todos.some(t => t.type === 'TODO' || t.type === 'FIXME'));
-  if (stubFiles.length > 5) { issues.push({ type: 'high-debt', detail: `${stubFiles.length} files contain TODO/FIXME markers` }); score -= 3; }
+  const qualityRate = Math.max(0, 1 - stubFiles.length / Math.max(1, files.length));
+  if (stubFiles.length > 5) issues.push({ type: 'high-debt', detail: `${stubFiles.length} files contain TODO/FIXME markers` });
+  checks.push({ name: 'Code Quality', weight: 10, score: Math.round(qualityRate * 100), detail: `${stubFiles.length} files with TODO/FIXME` });
+  totalWeight += 10; earnedWeight += 10 * qualityRate;
 
-  return { confidenceScore: Math.max(10, Math.min(100, score)), issues, timestamp: new Date().toISOString() };
+  // 7. Function Intelligence (weight: 10)
+  const funcCount = files.reduce((s, f) => s + f.functions.length, 0);
+  const funcCoverage = funcCount > 0 ? Math.min(1, funcCount / 50) : 0;
+  checks.push({ name: 'Function Intelligence', weight: 10, score: Math.round(funcCoverage * 100), detail: `${funcCount} functions analyzed` });
+  totalWeight += 10; earnedWeight += 10 * funcCoverage;
+
+  const confidenceScore = Math.max(5, Math.min(100, Math.round((earnedWeight / totalWeight) * 100)));
+  return { confidenceScore, checks, issues, timestamp: new Date().toISOString() };
+}
+
+function getConfidenceGuidance(score) {
+  if (score >= 95) return 'Brain can replace most repository scanning.';
+  if (score >= 80) return 'Brain can be primary context source. Verify edge cases in source.';
+  if (score >= 50) return 'Partial repository scan required. Brain provides structure and navigation.';
+  return 'Repository scan required. Brain provides overview only.';
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -1080,10 +1261,15 @@ function inferFuncPurpose(name, filePath) {
 function buildDataIntelligence(files) {
   const models = [], migrations = [], repositories = [], dataFlows = [];
   for (const f of files) {
-    if (/model|entity|schema/i.test(f.path) && !f.hasTests) {
+    // Match schema/entity/model files but NOT adapter files
+    if (/model|entity|schema/i.test(f.path) && !f.hasTests && !/adapter|provider/i.test(f.path)) {
       for (const cls of f.classes) {
+        // Require actual ORM evidence or being in a real schema directory
         const ormType = inferORM(f);
-        models.push({ name: cls.name, file: f.path, orm: ormType });
+        const isRealModel = ormType !== 'Custom' || /schema|entity|model/i.test(basename(f.path));
+        if (isRealModel) {
+          models.push({ name: cls.name, file: f.path, orm: ormType });
+        }
       }
     }
     if (/migration|migrate/i.test(f.path)) migrations.push({ file: f.path, funcs: f.functions.map(fn => fn.name) });
@@ -1342,7 +1528,8 @@ function generateBrainMd(ctx) {
   // ═══ HEADER ═══
   ln('# AI REPOSITORY BRAIN — ' + projectName);
   blank();
-  ln('> **FOR AI AGENTS**: This is the SINGLE master intelligence file. Read this FIRST — it replaces 90-98% of full repository scanning.');
+  const guidance = getConfidenceGuidance(validation.confidenceScore);
+  ln('> **FOR AI AGENTS**: ' + guidance);
   ln('> **Confidence**: ' + validation.confidenceScore + '% | **Generated**: ' + meta.generatedAt + ' | **Engine**: PGOS AIRB v' + VERSION);
   ln('> **Files Analyzed**: ' + files.length + ' | **LOC**: ' + totalLoc.toLocaleString() + ' | **Duration**: ' + meta.duration + 'ms');
   if (readme.exists) ln('> **README**: ' + readme.description.substring(0, 200));
@@ -1440,6 +1627,14 @@ function generateBrainMd(ctx) {
   ln('## §3 — ARCHITECTURE INTELLIGENCE');
   blank();
   ln('**Detected Pattern**: ' + C(arch.pattern) + ' (' + arch.confidence + '% confidence)');
+  blank();
+  if (arch.confidenceMatrix && arch.confidenceMatrix.length > 0) {
+    ln('### Architecture Confidence Matrix');
+    ln('| Pattern | Confidence |');
+    ln('|---------|-----------|');
+    arch.confidenceMatrix.forEach(m => ln('| ' + m.pattern + ' | ' + m.confidence + '% |'));
+    blank();
+  }
   blank();
   ln('### Architecture Narrative');
   ln('This system uses ' + arch.pattern + ' architecture built on ' + arch.framework + '. ' + (arch.layers.length > 0 ? 'It is organized into ' + arch.layers.length + ' distinct layers.' : ''));
@@ -1657,6 +1852,13 @@ function generateBrainMd(ctx) {
   blank();
   ln('**Overall Risk Score: ' + risks.overallScore + '/100** ' + (risks.overallScore >= 60 ? '[HIGH]' : risks.overallScore >= 30 ? '[MEDIUM]' : '[LOW]'));
   blank();
+  if (risks.breakdown && risks.breakdown.length > 0) {
+    ln('### Risk Calculation');
+    ln('| Factor | Count | Penalty |');
+    ln('|--------|-------|---------|');
+    risks.breakdown.filter(b => b.penalty > 0).forEach(b => ln('| ' + b.factor + ' | ' + b.count + ' | +' + b.penalty + ' |'));
+    blank();
+  }
   ln('| Risk Factor | Count |');
   ln('|-------------|-------|');
   ln('| Critical Files | ' + risks.criticalFiles.length + ' |');
@@ -1725,7 +1927,7 @@ function generateBrainMd(ctx) {
   ln('## §22 — AI OPERATING SYSTEM');
   blank();
   ln('### ALWAYS');
-  ln('- Read this Brain file FIRST — it replaces 90-98% of repository scanning');
+  ln('- ' + getConfidenceGuidance(validation.confidenceScore));
   ln('- Preserve all existing comments, docstrings, and documentation');
   ln('- Match the existing code style (indentation, brackets, naming)');
   ln('- Check blast radius (§15) before modifying any file');
@@ -1817,8 +2019,21 @@ function generateBrainMd(ctx) {
   blank();
   ln('**Confidence Score: ' + validation.confidenceScore + '%** ' + (validation.confidenceScore >= 80 ? '[HIGH]' : validation.confidenceScore >= 50 ? '[MEDIUM]' : '[LOW]'));
   blank();
-  if (validation.issues.length > 0) validation.issues.slice(0, 15).forEach(i => ln('- [' + i.type + '] ' + i.detail));
-  else ln('- All validation checks passed');
+  ln('> ' + getConfidenceGuidance(validation.confidenceScore));
+  blank();
+  if (validation.checks && validation.checks.length > 0) {
+    ln('### Confidence Breakdown');
+    ln('| Check | Weight | Score | Detail |');
+    ln('|-------|--------|-------|--------|');
+    validation.checks.forEach(c => ln('| ' + c.name + ' | ' + c.weight + ' | ' + c.score + '% | ' + c.detail + ' |'));
+    blank();
+  }
+  if (validation.issues.length > 0) {
+    ln('### Issues (' + validation.issues.length + ')');
+    validation.issues.slice(0, 15).forEach(i => ln('- [' + i.type + '] ' + i.detail));
+  } else {
+    ln('- All validation checks passed');
+  }
   blank();
   ln('### Quality Manifest');
   ln('| Check | Result |');
@@ -1978,7 +2193,7 @@ function generateRulesFile(projectName, files, arch, risks, validation) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-// MAIN PIPELINE — AIRB v3
+// MAIN PIPELINE — AIRB v4
 // ═══════════════════════════════════════════════════════════════════════
 
 async function main() {
@@ -1989,6 +2204,11 @@ async function main() {
   console.log(`\n🧠 AIRB — AI Repository Brain Platform v${VERSION}`);
   console.log(`📂 Repository: ${rootPath}`);
   console.log(`─────────────────────────────────────────`);
+
+  // Phase 0: Detect workspace packages
+  console.log('📦 Phase 0/6: Detecting workspace packages...');
+  const wsPkgs = await detectWorkspacePackages(rootPath);
+  console.log(`   Scopes: ${wsPkgs.scopes.join(', ') || 'none'} | Packages: ${wsPkgs.packages.length}`);
 
   // Phase 1: Scan
   console.log('🔍 Phase 1/6: Scanning directory tree...');
@@ -2009,7 +2229,7 @@ async function main() {
   console.log('🔗 Phase 3/6: Building cross-file intelligence...');
   const depGraph = buildDependencyGraph(files);
   const callGraph = buildFunctionCallGraph(files);
-  const arch = detectArchitecture(files, rootPath);
+  const arch = await detectArchitecture(files, rootPath);
   const flows = buildExecutionFlows(files);
   const features = buildFeatureMatrix(files);
   const blastRadius = analyzeBlastRadius(files, depGraph);
@@ -2019,9 +2239,9 @@ async function main() {
   const observability = extractObservability(files);
   const techDebt = analyzeTechDebt(files);
   const validation = validateIntelligence(files, depGraph, features);
-  console.log(`   Architecture: ${arch.pattern} (${arch.confidence}%) | Risk: ${risks.overallScore}/100 | Confidence: ${validation.confidenceScore}%`);
+  console.log(`   Architecture: ${arch.pattern} (${arch.confidence}%) | Dep Edges: ${depGraph.edges.length} | Risk: ${risks.overallScore}/100 | Confidence: ${validation.confidenceScore}%`);
 
-  // Phase 4: AIRB v3 Deep Intelligence
+  // Phase 4: AIRB v4 Deep Intelligence
   console.log('🧠 Phase 4/6: Building AIRB deep intelligence...');
   const domainIntel = buildDomainIntelligence(files);
   const knowledgeGraph = buildKnowledgeGraph(files, depGraph, features, domainIntel);
