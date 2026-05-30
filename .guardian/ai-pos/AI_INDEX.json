@@ -1,0 +1,20 @@
+{
+  "version": "3.0.0",
+  "generatedAt": "2026-05-30T06:41:15.977Z",
+  "duration": 729,
+  "project": {
+    "name": "app",
+    "files": 115,
+    "loc": 16789,
+    "language": "TypeScript",
+    "framework": "React",
+    "architecture": "Monorepo"
+  },
+  "risk": 23,
+  "confidence": 10,
+  "endpoints": 93,
+  "features": 24,
+  "entities": 167,
+  "functions": 50,
+  "knowledgeGraphNodes": 100
+}

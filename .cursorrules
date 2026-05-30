@@ -5,15 +5,15 @@
 - **Name**: app
 - **Stack**: TypeScript / React
 - **Architecture**: Monorepo
-- **Scale**: 93 files | 14,475 LOC
-- **Risk Score**: 26/100
+- **Scale**: 115 files | 16,789 LOC
+- **Risk Score**: 23/100
 - **Confidence**: 10%
 - **Brain File**: `.guardian/ai-pos/AI_REPOSITORY_BRAIN.md`
 
 ## Safety Zones
-- Safe (24): Tests, specs, documentation — low risk
-- Caution (36): Business logic, routing — review before changing
-- Critical (33): Auth, DB, config, entry points — requires impact analysis
+- Safe (29): Tests, specs, documentation — low risk
+- Caution (51): Business logic, routing — review before changing
+- Critical (35): Auth, DB, config, entry points — requires impact analysis
 
 ## AI Operating Rules
 

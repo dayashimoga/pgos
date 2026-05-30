@@ -1,0 +1,47 @@
+name: Update AI Brain
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-brain:
+    name: Generate & Commit AI Brain
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate AI Brain
+        run: |
+          # Execute the drop-in engine using Node.js directly
+          node ai-pos-dropin.js
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Add generated files to git index
+          git add .guardian/ai-pos/AI_REPOSITORY_BRAIN.md \
+                  .guardian/ai-pos/AI_INDEX.json \
+                  .cursorrules \
+                  .windsurfrules \
+                  .github/copilot-instructions.md
+          
+          # Commit only if there are actual changes to prevent unnecessary pipeline loops
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: auto-update AI Repository Brain and rules [skip ci]"
+            git push origin main
+          else
+            echo "No changes in AI Repository Brain detected. Skipping commit."
+          fi
