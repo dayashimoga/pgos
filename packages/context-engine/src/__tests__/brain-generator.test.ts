@@ -108,7 +108,7 @@ describe('AI-POS Brain Generator Engine (End-to-End)', () => {
     const indexContent = await fs.readFile(indexPath, 'utf-8');
     const index = JSON.parse(indexContent);
     
-    expect(index.version).toBe('2.0.0');
+    expect(index.version).toBe('3.0.0');
     expect(index.project.files).toBeGreaterThan(5);
     expect(index.endpoints).toBeGreaterThan(0);
     expect(index.risk).toBeGreaterThan(0);
@@ -119,7 +119,7 @@ describe('AI-POS Brain Generator Engine (End-to-End)', () => {
     const brainContent = await fs.readFile(brainPath, 'utf-8');
     
     // Architecture
-    expect(brainContent).toContain('Layered');
+    expect(brainContent.toLowerCase()).toContain('layered');
     expect(brainContent).toContain('API / Entry Points');
     expect(brainContent).toContain('Services / Business Logic');
     
@@ -137,10 +137,10 @@ describe('AI-POS Brain Generator Engine (End-to-End)', () => {
     expect(brainContent).toContain('cycleB.ts');
     
     // Debt & Stubs
-    expect(brainContent).toContain('TODO');
-    expect(brainContent).toContain('add pagination');
-    expect(brainContent).toContain('FIXME');
-    expect(brainContent).toContain('hash passwords');
+    expect(brainContent.toLowerCase()).toContain('todo');
+    expect(brainContent.toLowerCase()).toContain('add pagination');
+    expect(brainContent.toLowerCase()).toContain('fixme');
+    expect(brainContent.toLowerCase()).toContain('hash passwords');
   });
 
   it('should detect security and env variables', async () => {

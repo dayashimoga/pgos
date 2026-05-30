@@ -50,9 +50,10 @@ RUN pnpm install --no-frozen-lockfile
 # ── Stage: source + test ─────────────────────────────────────
 FROM deps AS test
 
-# Copy the full source tree
+# Copy the full source tree and dropin files
 COPY packages/ ./packages/
 COPY apps/     ./apps/
+COPY ai-pos-dropin.* ./
 
 # Build all packages so workspace dependencies resolve
 RUN pnpm build
